@@ -1,12 +1,18 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomOnuDevice} from "./interfaces/IBdcomOnuDevice";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
+import {StatOnuDevice} from "@prisma/client";
 
-export const cmdShowEponOnuInfo = (portNumber: string): IDeviceCommand => {
+/***
+ * This command is used to show epon onu info interface
+ * @param boardNumber - default value is 0
+ * @param portNumber - port number
+ */
+export const cmdShowEponOnuInfo = (boardNumber: number = 0, portNumber: number): IDeviceCommand<StatOnuDevice> => {
     return {
         ...defaultCmdParams,
         command: () => {
-            return `show epon onu-info int epon0/${portNumber}`;
+            return `show epon onu-info int epon${boardNumber}/${portNumber}`;
         },
         analyzer: (data) => {
             let input = data.replace(/\r\n/g, "");
@@ -29,7 +35,7 @@ export const cmdShowEponOnuInfo = (portNumber: string): IDeviceCommand => {
                 };
                 onuDevices.push(onuObject);
             }
-            return JSON.stringify(onuDevices)
+            return onuDevices
         }
     }
 }

@@ -2,7 +2,7 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomInactiveOnu} from "./interfaces/IBdcomInactiveOnu";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
-export const cmdShowEponInactiveOnu: IDeviceCommand = {
+export const cmdShowEponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
     ...defaultCmdParams,
     command: () => {
         return "show epon inactive-onu"
@@ -30,6 +30,6 @@ export const cmdShowEponInactiveOnu: IDeviceCommand = {
             }
             deregisteredONUs.push(onuObject);
         }
-        return JSON.stringify(deregisteredONUs)
+        return deregisteredONUs
     }
 }

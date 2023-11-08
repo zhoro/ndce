@@ -4,7 +4,7 @@ import {DeviceManagementAccess} from "./core/network/DeviceManagementAccess";
 import {DeviceHost} from "./core/network/DeviceHost";
 import {NetworkDevice} from "./core/network/NetworkDevice";
 import {DeviceCredentials} from "./core/network/DeviceCredentials";
-import {BDCOM} from "./core/devices";
+import {networkDevices} from "./core/devices";
 
 dotenv.config();
 
@@ -19,31 +19,31 @@ async function run() {
     // const host = new DeviceHost("10.12.3.42", 23);
     const credentials: DeviceCredentials = new DeviceCredentials(username, password);
     const managementAccess = new DeviceManagementAccess(host, credentials);
-    const device = new NetworkDevice(BDCOM.P3310D, managementAccess);
+    const device = new NetworkDevice(networkDevices.BDCOM.P3310D, managementAccess);
 
     await device.connect();
     if (device.isConnected) {
         await device.login();
     }
     if (device.isLogged) {
-        await device.execute(BDCOM.generic.commands.cmdEnable);
-        const utilization = await device.execute(BDCOM.generic.commands.cmdShowCpu);
+        await device.execute(networkDevices.BDCOM.generic.commands.cmdEnable);
+        const utilization = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowCpu);
         debug(utilization);
-        const epoOnuInfo = await device.execute(BDCOM.generic.commands.cmdShowEponOnuInfo('1'));
+        const epoOnuInfo = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponOnuInfo(0, 1));
         debug(epoOnuInfo);
-        const eponOnuIntEponOnuCtcOpt = await device.execute(BDCOM.generic.commands.cmdShowEponIntEponOnuCtcOpt('1', '1'));
+        const eponOnuIntEponOnuCtcOpt = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponIntEponOnuCtcOpt('1', '1'));
         debug(eponOnuIntEponOnuCtcOpt);
-        const eponInactiveOnu = await device.execute(BDCOM.generic.commands.cmdShowEponInactiveOnu);
+        const eponInactiveOnu = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponInactiveOnu);
         debug(eponInactiveOnu);
-        const eponOptTrDiagInt = await device.execute(BDCOM.generic.commands.cmdShowEponOptTrDiagInt('1'));
+        const eponOptTrDiagInt = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponOptTrDiagInt('1'));
         debug(eponOptTrDiagInt);
-        const macAddTableDynamic = await device.execute(BDCOM.generic.commands.cmdShowMacAddTableDynamic);
+        const macAddTableDynamic = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowMacAddTableDynamic);
         debug(macAddTableDynamic);
-        const cmdShowMacAddTableInt = await device.execute(BDCOM.generic.commands.cmdShowMacAddTableInt('epon', '0', '1', '1'));
+        const cmdShowMacAddTableInt = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowMacAddTableInt('epon', '0', '1', '1'));
         debug(cmdShowMacAddTableInt);
-        const cmdShowMacAddTableInt2 = await device.execute(BDCOM.generic.commands.cmdShowMacAddTableInt('epon', '0', '1'));
+        const cmdShowMacAddTableInt2 = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowMacAddTableInt('epon', '0', '1'));
         debug(cmdShowMacAddTableInt2);
-        const cmdShowMacAddTableInt3 = await device.execute(BDCOM.generic.commands.cmdShowMacAddTableInt('g', '0', '3'));
+        const cmdShowMacAddTableInt3 = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowMacAddTableInt('g', '0', '3'));
         debug(cmdShowMacAddTableInt3);
     }
     await device.disconnect();

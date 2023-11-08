@@ -2,7 +2,7 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 import {IBdcomMacAddTable} from "./interfaces/IBdcomMacAddTable";
 
-export const cmdShowMacAddTableDynamic: IDeviceCommand = {
+export const cmdShowMacAddTableDynamic: IDeviceCommand<IBdcomMacAddTable> = {
     ...defaultCmdParams,
     cmdParams: {
         sendTimeout: 1500
@@ -11,7 +11,7 @@ export const cmdShowMacAddTableDynamic: IDeviceCommand = {
     analyzer: (data) => {
         let input = data.replace(/\r\n/g, " ");
         const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+((g(\d+)\/(\d+))|(epon(\d+)\/(\d+):(\d+))))/gm;
-        const macInfo: any[] = [];
+        const macInfo: IBdcomMacAddTable[] = [];
         let match
         while ((match = regex.exec(input)) !== null) {
             const [, wholeMatch, vlan, mac, type, fullInterface, ethFullInt, ethBoard, ethPort, ponFullInt, ponBoard, ponPort, ponInt,] = match;
@@ -30,6 +30,6 @@ export const cmdShowMacAddTableDynamic: IDeviceCommand = {
             }
             macInfo.push(macObject);
         }
-        return JSON.stringify(macInfo);
+        return macInfo;
     }
 }

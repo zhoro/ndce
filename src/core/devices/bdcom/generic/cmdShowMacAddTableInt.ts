@@ -1,7 +1,7 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomMacAddTable} from "./interfaces/IBdcomMacAddTable";
 
-export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum: string, intNum?: string): IDeviceCommand => {
+export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum: string, intNum?: string): IDeviceCommand<IBdcomMacAddTable> => {
     return {
         cmdParams: {
             sendTimeout: 1500
@@ -34,7 +34,7 @@ export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum
                 }
                 macInfo.push(macObject);
             }
-            return JSON.stringify(macInfo);
+            return macInfo;
         }
     }
 }

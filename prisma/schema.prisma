@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DeviceType {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  type        String        @unique @default("olt")
+  DeviceModel DeviceModel[]
+}
+
+model DeviceVendor {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  name        String        @unique
+  DeviceModel DeviceModel[]
+}
+
+model DeviceModel {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  name          String          @unique
+  vendor        DeviceVendor    @relation(fields: [vendorId], references: [id])
+  vendorId      Int
+  deviceType    DeviceType      @relation(fields: [deviceTypeId], references: [id])
+  deviceTypeId  Int
+  NetworkDevice NetworkDevice[]
+}
+
+model DeviceCredential {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  username      String          @default("admin")
+  password      String          @default("admin")
+  NetworkDevice NetworkDevice[]
+}
+
+model NetworkDevice {
+  id                 Int              @id @default(autoincrement())
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  accessIpAddressV4  String           @unique
+  accessType         String           @default("telnet")
+  accessPort         String           @default("23")
+  deviceModel        DeviceModel      @relation(fields: [deviceModelId], references: [id])
+  deviceModelId      Int
+  deviceCredential   DeviceCredential @relation(fields: [deviceCredentialId], references: [id])
+  deviceCredentialId Int
+  StatOnuDevice      StatOnuDevice[]
+}
+
+model StatOnuDevice {
+  id              Int           @id @default(autoincrement())
+  eponBoard       String
+  eponPort        String
+  eponInterface   String
+  vendorId        String
+  modelId         String
+  macAddressOnu   String
+  description     String
+  bindType        String
+  status          String
+  deregReason     String
+  createdAt       DateTime      @default(now())
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+  networkDeviceId Int
+
+  @@index([macAddressOnu])
+  @@index([status])
+}

@@ -2,7 +2,7 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 import {IBdcomEponOptTrDiagInt} from "./interfaces/IBdcomEponOptTrDiagInt";
 
-export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand => {
+export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand<IBdcomEponOptTrDiagInt> => {
     return {
         ...defaultCmdParams,
         cmdParams: {
@@ -12,7 +12,7 @@ export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand => {
         analyzer: (data) => {
             let input = data.replace(/\r\n/g, "");
             const regex = /(epon(\d)\/(\d):(\d{0,3})\s+(-?\d{1,2}.\d))/gm;
-            const onuInfo: any[] = [];
+            const onuInfo: IBdcomEponOptTrDiagInt[] = [];
             let match
             while ((match = regex.exec(input)) !== null) {
                 const [, wholeMatch, eponBoard, eponPort, eponInterface, rxPower] = match;
@@ -24,7 +24,7 @@ export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand => {
                 }
                 onuInfo.push(onuObject);
             }
-            return JSON.stringify(onuInfo)
+            return onuInfo
         }
     }
 }

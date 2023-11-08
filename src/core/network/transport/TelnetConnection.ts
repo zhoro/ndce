@@ -16,7 +16,9 @@ export type TelnetConnectionParams = {
     pageSeparator?: string;
 }
 
-/// Telnet connection Class
+/***
+ * Telnet connection
+ */
 export class TelnetConnection implements IDeviceConnection {
     private debug;
     private telnet;
@@ -92,7 +94,10 @@ export class TelnetConnection implements IDeviceConnection {
         throw new Error("Method not implemented.");
     }
 
-    /// Initialize the connection
+    /***
+     * Initialize connection
+     * @param params connection parameters
+     */
     initialize(params: TelnetConnectionParams): boolean {
         this.debug('TelnetConnection.initialize');
         if (!this.isInitialized) {
@@ -109,7 +114,9 @@ export class TelnetConnection implements IDeviceConnection {
         return false;
     }
 
-    /// Connect to the device
+    /***
+     * Connect to the device
+     */
     async connect() {
         this.debug('TelnetConnection.connect');
         if (this.isConnected) {
@@ -126,7 +133,9 @@ export class TelnetConnection implements IDeviceConnection {
         return;
     }
 
-    /// Disconnect from the device
+    /***
+     * Disconnect from the device
+     */
     async disconnect() {
         this.debug('TelnetConnection.disconnect');
         if (this.isConnected) {
@@ -141,7 +150,11 @@ export class TelnetConnection implements IDeviceConnection {
         }
     }
 
-    /// Execute a command on the device
+    /***
+     * Execute command
+     * @param command command to execute
+     * @param params command parameters
+     */
     async execute(command: string, params: IDeviceCommandParams) {
         this.debug('TelnetConnection.execute: ' + command);
         if (!this.isConnected) return Promise.reject();

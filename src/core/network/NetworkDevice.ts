@@ -17,6 +17,11 @@ export class NetworkDevice {
         return this.transport.isLogged;
     }
 
+    /***
+     * NetworkDevice constructor
+     * @param device
+     * @param managementAccess
+     */
     constructor(public device: IDevice, public managementAccess: DeviceManagementAccess) {
 
         this.debug = Debug('ndce:network-device');
@@ -75,7 +80,7 @@ export class NetworkDevice {
         }
     }
 
-    async execute(cmd: IDeviceCommand) {
+    async execute(cmd: IDeviceCommand<any>) {
         try {
             if (this.transport.isConnected && this.transport.isLogged) {
                 const deviceCommand = cmd.command();

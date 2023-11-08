@@ -1,3 +1,4 @@
 import {BDCOM} from './bdcom'
-
-export {BDCOM}
+export const networkDevices = {
+    BDCOM
+}

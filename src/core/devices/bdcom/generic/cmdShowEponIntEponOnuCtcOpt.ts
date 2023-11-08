@@ -2,7 +2,7 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomOnuInterfaceEponOpticalDetails} from "./interfaces/IBdcomOnuInterfaceDetails";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
-export const cmdShowEponIntEponOnuCtcOpt = (portNumber: string, interfaceNumber: string): IDeviceCommand => {
+export const cmdShowEponIntEponOnuCtcOpt = (portNumber: string, interfaceNumber: string): IDeviceCommand<IBdcomOnuInterfaceEponOpticalDetails> => {
     return {
         ...defaultCmdParams,
         command: () => `show epon int epon0/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`,
@@ -23,7 +23,7 @@ export const cmdShowEponIntEponOnuCtcOpt = (portNumber: string, interfaceNumber:
                 opTxPower: onuInfo[3],
                 opRxPower: onuInfo[4],
             }
-            return JSON.stringify(onuDetails)
+            return onuDetails;
         }
     }
 }
