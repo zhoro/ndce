@@ -21,13 +21,12 @@ export const cmdShowEponIntEponOnuCtcOpt = (boardNumber: number = 0, portNumber:
                 const [, value] = match;
                 onuInfo.push(value);
             }
-            if (onuInfo.length !== 5) throw new Error('Invalid onuInfo information received');
             const onuDetails: IBdcomOnuInterfaceEponOpticalDetails = {
-                opTemperature: onuInfo[0],
-                opVoltage: onuInfo[1],
-                opBiasCurrent: onuInfo[2],
-                opTxPower: onuInfo[3],
-                opRxPower: onuInfo[4],
+                opTemperature: onuInfo[0] || "",
+                opVoltage: onuInfo[1] || "",
+                opBiasCurrent: onuInfo[2] || "",
+                opTxPower: onuInfo[3] || "",
+                opRxPower: onuInfo[4] || "",
             }
             return onuDetails;
         }
