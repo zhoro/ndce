@@ -104,9 +104,9 @@ export class TelnetConnection implements IDeviceConnection {
             this.telnet = new Telnet();
             this.params = params;
 
-            this.telnet.on('failedlogin', this.onLoginFailed);
-            this.telnet.on('error', this.onError);
-            this.telnet.on('timeout', this.onTimeout);
+            this.telnet.on('failedlogin', this.onLoginFailed.bind(this));
+            this.telnet.on('error', this.onError.bind(this));
+            this.telnet.on('timeout', this.onTimeout.bind(this));
 
             this.isInitialized = true;
             return true;
@@ -166,15 +166,18 @@ export class TelnetConnection implements IDeviceConnection {
         return result;
     }
 
-    onError(error) {
-        console.error(error);
+    onError(error: Error) {
+        this.debug('TelnetConnection.onError: ' + error.message);
+        this.telnet.end();
     }
 
     onTimeout() {
-        console.error('TelnetConnection.onTimeout');
+        this.debug('TelnetConnection.onTimeout: connection terminated by timeout');
+        this.telnet.end();
     }
 
     onLoginFailed() {
-        this.debug('TelnetConnection.onLoginFailed');
+        this.debug('TelnetConnection.onLoginFailed: login failed');
+        this.telnet.end();
     }
 }
