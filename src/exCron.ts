@@ -5,7 +5,7 @@ const debug = Debug('ndce:exCron');
 Debug.enable(process.env.DEBUG_MODE || 'false');
 
 async function run() {
-    await exCmdShowEponOnuInfoInterface(5, 0);
+    await exCmdShowEponOnuInfoInterface();
 }
 
 run().catch(e => {

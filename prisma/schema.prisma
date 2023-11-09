@@ -48,24 +48,25 @@ model DeviceCredential {
 }
 
 model NetworkDevice {
-  id                 Int              @id @default(autoincrement())
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-  accessIpAddressV4  String           @unique
-  accessType         String           @default("telnet")
-  accessPort         String           @default("23")
-  deviceModel        DeviceModel      @relation(fields: [deviceModelId], references: [id])
-  deviceModelId      Int
-  deviceCredential   DeviceCredential @relation(fields: [deviceCredentialId], references: [id])
-  deviceCredentialId Int
-  StatOnuDevice      StatOnuDevice[]
+  id                   Int                    @id @default(autoincrement())
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  accessIpAddressV4    String                 @unique
+  accessType           String                 @default("telnet")
+  accessPort           String                 @default("23")
+  deviceModel          DeviceModel            @relation(fields: [deviceModelId], references: [id])
+  deviceModelId        Int
+  deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
+  deviceCredentialId   Int
+  StatOnuDevice        StatOnuDevice[]
+  StatOnuOpticalSignal StatOnuOpticalSignal[]
 }
 
 model StatOnuDevice {
   id              Int           @id @default(autoincrement())
-  eponBoard       String
-  eponPort        String
-  eponInterface   String
+  eponBoard       Int
+  eponPort        Int
+  eponInterface   Int
   vendorId        String
   modelId         String
   macAddressOnu   String
@@ -79,4 +80,16 @@ model StatOnuDevice {
 
   @@index([macAddressOnu])
   @@index([status])
+}
+
+model StatOnuOpticalSignal {
+  id              Int           @id @default(autoincrement())
+  eponBoard       Int
+  eponPort        Int
+  eponInterface   Int
+  rxPower         Float
+  txPower         Float
+  createdAt       DateTime      @default(now())
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+  networkDeviceId Int
 }

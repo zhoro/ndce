@@ -31,7 +31,7 @@ async function run() {
         debug(utilization);
         const epoOnuInfo = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponOnuInfo(0, 1));
         debug(epoOnuInfo);
-        const eponOnuIntEponOnuCtcOpt = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponIntEponOnuCtcOpt('1', '1'));
+        const eponOnuIntEponOnuCtcOpt = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponIntEponOnuCtcOpt(0,1, 1));
         debug(eponOnuIntEponOnuCtcOpt);
         const eponInactiveOnu = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponInactiveOnu);
         debug(eponInactiveOnu);

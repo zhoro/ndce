@@ -1,7 +1,7 @@
 export interface IBdcomOnuDevice {
-    eponBoard: string;
-    eponPort: string;
-    eponInterface: string;
+    eponBoard: number;
+    eponPort: number;
+    eponInterface: number;
     vendorId: string;
     modelId: string;
     macAddressOnu: string;

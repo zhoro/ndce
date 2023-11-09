@@ -10,7 +10,7 @@ import {getNetworkDevices} from "./core/utils/getNetworkDevices";
 /***
  * Show epon onu info interface command for network devices
  * @param networkDeviceId optional network device id, default value is 0 for all devices
- * @param boardNumber optional board number, default value is 0 for board #0
+ * @param boardNumber optional board number, default value is Infinity for board #0 from configuration
  * @param portNumber optional port number, default value is 0 for all ports on board
  */
 export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0, boardNumber = Infinity, portNumber = 0) {
@@ -32,7 +32,14 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
             }
 
             const devConf = networkDevices[`${networkDevice.deviceModel.vendor.name}`][`${networkDevice.deviceModel.name}`];
+            if (devConf === undefined) {
+                debug(`device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`);
+                continue
+            }
 
+            if (boardNumber === Infinity) {
+                boardNumber = devConf.configuration.boards[0];
+            }
             if (!devConf.configuration.boards.includes(boardNumber)) {
                 debug(`board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`);
                 continue

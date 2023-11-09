@@ -2,10 +2,16 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomOnuInterfaceEponOpticalDetails} from "./interfaces/IBdcomOnuInterfaceDetails";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
-export const cmdShowEponIntEponOnuCtcOpt = (portNumber: string, interfaceNumber: string): IDeviceCommand<IBdcomOnuInterfaceEponOpticalDetails> => {
+/***
+    * @description Show epon int epon<boardNumber>/<portNumber>:<interfaceNumber> onu ctc optical-transceiver-diagnosis
+    * @param boardNumber default value is 0
+    * @param portNumber
+    * @param interfaceNumber
+    */
+export const cmdShowEponIntEponOnuCtcOpt = (boardNumber: number = 0, portNumber: number, interfaceNumber: number): IDeviceCommand<IBdcomOnuInterfaceEponOpticalDetails> => {
     return {
         ...defaultCmdParams,
-        command: () => `show epon int epon0/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`,
+        command: () => `show epon int epon${boardNumber}/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`,
         analyzer: (data) => {
             let input = data.replace(/\r\n/g, "");
             const regex = /:\s(-?\d+.?\d+?)/gm;

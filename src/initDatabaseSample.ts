@@ -4,27 +4,33 @@ import * as dotenv from 'dotenv';
 const prisma = new PrismaClient()
 
 async function main() {
-    //add DeviceVendor
-    let vendor
+    //search DeviceVendor
+    let vendor;
     vendor = await prisma.deviceVendor.findUnique({
         where: {
             name: 'BDCOM'
         }
     });
+
+    //add DeviceVendor
     if (!vendor) {
-        vendor = await prisma.deviceVendor.create({
-            data: {
-                name: 'BDCOM'
-            }
-        }).then(() => {
+        try {
+            const createVendor = await prisma.deviceVendor.create({
+                data: {
+                    name: 'BDCOM'
+                }
+            })
             console.log('DeviceVendor created');
-        }).catch(e => {
-            console.error(e);
-        });
+            vendor = createVendor;
+        } catch (e) {
+            throw new Error('Error creating DeviceVendor');
+        }
+
     } else {
         console.log('DeviceVendor already exists. Skipping...');
     }
-    // add DeviceType
+
+    //search DeviceType
     let deviceType
     deviceType = await prisma.deviceType.findUnique({
         where: {
@@ -32,21 +38,25 @@ async function main() {
         }
     });
 
+    //add DeviceType
     if (!deviceType) {
-        //add DeviceType
-        deviceType = await prisma.deviceType.create({
-            data: {
-                type: 'olt'
-            }
-        }).then(() => {
-            console.log('DeviceType created:');
-        }).catch(e => {
-            console.error(e);
-        });
+        try {
+            const createDeviceType = await prisma.deviceType.create({
+                data: {
+                    type: 'olt'
+                }
+            });
+            console.log('DeviceType created');
+            deviceType = createDeviceType;
+        } catch (e) {
+            throw new Error('Error creating DeviceType');
+        }
+
     } else {
         console.log('DeviceType already exists. Skipping...');
     }
-// add DeviceModel
+
+    //search DeviceModel
     let deviceModel
     deviceModel = await prisma.deviceModel.findUnique({
         where: {
@@ -57,30 +67,32 @@ async function main() {
     });
 
     if (!deviceModel) {
-        deviceModel = await prisma.deviceModel.create({
-            data: {
-                name: 'general',
-                vendor: {
-                    connect: {
-                        id: vendor.id
-                    }
-                },
-                deviceType: {
-                    connect: {
-                        id: deviceType.id
+        try {
+            const createDeviceModel = await prisma.deviceModel.create({
+                data: {
+                    name: 'generic',
+                    vendor: {
+                        connect: {
+                            id: vendor.id
+                        }
+                    },
+                    deviceType: {
+                        connect: {
+                            id: deviceType.id
+                        }
                     }
                 }
-            }
-        }).then(() => {
-            console.log('DeviceModel created ');
-        }).catch(e => {
-            console.error(e);
-        });
+            });
+            console.log('DeviceModel created');
+            deviceModel = createDeviceModel;
+        } catch (e) {
+            throw new Error('Error creating DeviceModel');
+        }
     } else {
         console.log('DeviceModel already exists. Skipping...');
     }
 
-    // add DeviceCredential
+    //search DeviceCredential
     const username = process.env.CLIENT_USERNAME || "admin";
     const password = process.env.CLIENT_PASSWORD || "admin";
     let deviceCredential;
@@ -89,57 +101,62 @@ async function main() {
             id: 1
         }
     });
+
+    //add DeviceCredential
     if (!deviceCredential) {
-        deviceCredential = await prisma.deviceCredential.create({
-            data: {
-                username: username,
-                password: password
-            }
-        }).then(() => {
-            console.log('DeviceCredentials created ');
-        }).catch(e => {
-            console.error(e);
-        });
+        try {
+            const createDeviceCredential = await prisma.deviceCredential.create({
+                data: {
+                    username: username,
+                    password: password
+                }
+            });
+            console.log('DeviceCredential created');
+            deviceCredential = createDeviceCredential;
+        } catch (e) {
+            throw new Error('Error creating DeviceCredential');
+        }
     } else {
         console.log('DeviceCredentials already exists. Skipping...');
     }
 
-    // add NetworkDevice
+    //search NetworkDevice
     let networkDevice;
     networkDevice = await prisma.networkDevice.findUnique({
         where: {
             accessIpAddressV4: '10.12.0.58',
         }
     });
+    //add NetworkDevice
     if (!networkDevice) {
-        networkDevice = await prisma.networkDevice.create({
-            data: {
-                deviceModel: {
-                    connect: {
-                        id: deviceModel.id
-                    }
-                },
-                accessIpAddressV4: '10.12.0.58',
-                accessPort: '23',
-                accessType: 'telnet',
-                deviceCredential: {
-                    connect: {
-                        id: 1
+        try {
+            networkDevice = await prisma.networkDevice.create({
+                data: {
+                    deviceModel: {
+                        connect: {
+                            id: deviceModel.id
+                        }
+                    },
+                    accessIpAddressV4: '10.12.0.58',
+                    accessPort: '23',
+                    accessType: 'telnet',
+                    deviceCredential: {
+                        connect: {
+                            id: deviceCredential.id
+                        }
                     }
                 }
-            }
-        }).then(() => {
-            console.log('NetworkDevice created ');
-        }).catch(e => {
-            console.error(e);
-        });
+            });
+            console.log('NetworkDevice created');
+        } catch (e) {
+            throw new Error('Error creating NetworkDevice');
+        }
+    } else {
+        console.log('NetworkDevice already exists. Skipping...');
     }
-
 }
 
-main().then(() => {
-    prisma.$disconnect();
-}).catch(e => {
+main().catch(e => {
     console.error(e);
 }).finally(() => {
     prisma.$disconnect();

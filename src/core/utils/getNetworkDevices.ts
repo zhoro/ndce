@@ -20,16 +20,20 @@ export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0)
         };
     }
 
-    return prisma.networkDevice.findMany({
-        include: {
-            deviceModel: {
-                include: {
-                    deviceType: true,
-                    vendor: true
-                }
+    try {
+        return prisma.networkDevice.findMany({
+            include: {
+                deviceModel: {
+                    include: {
+                        deviceType: true,
+                        vendor: true
+                    }
+                },
+                deviceCredential: true
             },
-            deviceCredential: true
-        },
-        ...includeOptions
-    });
+            ...includeOptions
+        });
+    } catch (e) {
+        throw new Error(`Error getting network devices: ${e}`);
+    }
 }

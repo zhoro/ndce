@@ -22,9 +22,9 @@ export const cmdShowEponOnuInfo = (boardNumber: number = 0, portNumber: number):
             while ((match = regex.exec(input)) !== null) {
                 const [, wholeMatch, eponBoard, eponPort, eponInterface, vendorId, modelId, macAddressOnu, description, bindType, status, deregReason] = match;
                 const onuObject: IBdcomOnuDevice = {
-                    eponBoard,
-                    eponPort,
-                    eponInterface,
+                    eponBoard: +eponBoard,
+                    eponPort: +eponPort,
+                    eponInterface: +eponInterface,
                     vendorId,
                     modelId,
                     macAddressOnu,
