@@ -62,10 +62,10 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
                 await device.login();
             }
             if (device.isLogged) {
-                await device.execute(networkDevices.BDCOM.generic.commands.cmdEnable);
+                await device.execute(devConf.commands.cmdEnable);
                 for (let port = 1; port <= devConf.configuration.portsCount.PON; port++) {
                     if (portNumber > 0 && portNumber !== port) continue
-                    const epoOnuInfo: StatOnuDevice[] = await device.execute(networkDevices.BDCOM.generic.commands.cmdShowEponOnuInfo(boardNumber, port));
+                    const epoOnuInfo: StatOnuDevice[] = await device.execute(devConf.commands.cmdShowEponOnuInfo(boardNumber, port));
                     for (const onu of epoOnuInfo) {
                         try {
                             const data: StatOnuDevice = {...onu};
