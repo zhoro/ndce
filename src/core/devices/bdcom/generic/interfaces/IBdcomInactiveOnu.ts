@@ -1,7 +1,7 @@
 export interface IBdcomInactiveOnu {
-    eponBoard: string;
-    eponPort: string;
-    eponInterface: string;
+    eponBoard: number;
+    eponPort: number;
+    eponInterface: number;
     macAddressOnu: string;
     status: string;
     lastRegDate: string;

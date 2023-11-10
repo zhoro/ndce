@@ -15,9 +15,9 @@ export const cmdShowEponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
         while ((match = regex.exec(input)) !== null) {
             const [, wholeMatch, eponBoard, eponPort, eponInterface, macAddressOnu, status, lastRegDate, lastRegTime, lastDeregDate, lastDeregTime, lastDeregReason, absentDays, , , absentTime] = match;
             const onuObject: IBdcomInactiveOnu = {
-                eponBoard,
-                eponPort,
-                eponInterface,
+                eponBoard: +eponBoard,
+                eponPort: +eponPort,
+                eponInterface: +eponInterface,
                 macAddressOnu,
                 status,
                 lastRegDate,

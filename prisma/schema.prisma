@@ -60,6 +60,7 @@ model NetworkDevice {
   deviceCredentialId   Int
   StatOnuDevice        StatOnuDevice[]
   StatOnuOpticalSignal StatOnuOpticalSignal[]
+  StatInactiveOnu      StatInactiveOnu[]
 }
 
 model StatOnuDevice {
@@ -92,4 +93,23 @@ model StatOnuOpticalSignal {
   createdAt       DateTime      @default(now())
   networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
   networkDeviceId Int
+}
+
+model StatInactiveOnu {
+  id              Int           @id @default(autoincrement())
+  eponBoard       Int
+  eponPort        Int
+  eponInterface   Int
+  macAddressOnu   String
+  status          String
+  deregReason     String
+  lastRegister    DateTime
+  lastDeregister  DateTime
+  createdAt       DateTime      @default(now())
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+  networkDeviceId Int
+  newest          Boolean       @default(true)
+
+  @@index([macAddressOnu])
+  @@index([status])
 }
