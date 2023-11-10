@@ -12,8 +12,9 @@ async function run() {
     await exCmdShEponInactiveOnu();
 }
 
+debug('start');
 run().catch(e => {
     console.error(e);
 }).finally(() => {
-    debug('finally');
+    debug('end');
 });
