@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -31,10 +28,10 @@ model DeviceModel {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   name          String          @unique
-  vendor        DeviceVendor    @relation(fields: [vendorId], references: [id])
   vendorId      Int
-  deviceType    DeviceType      @relation(fields: [deviceTypeId], references: [id])
   deviceTypeId  Int
+  deviceType    DeviceType      @relation(fields: [deviceTypeId], references: [id])
+  vendor        DeviceVendor    @relation(fields: [vendorId], references: [id])
   NetworkDevice NetworkDevice[]
 }
 
@@ -54,20 +51,17 @@ model NetworkDevice {
   accessIpAddressV4    String                 @unique
   accessType           String                 @default("telnet")
   accessPort           String                 @default("23")
-  deviceModel          DeviceModel            @relation(fields: [deviceModelId], references: [id])
   deviceModelId        Int
-  deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
   deviceCredentialId   Int
+  deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
+  deviceModel          DeviceModel            @relation(fields: [deviceModelId], references: [id])
+  StatInactiveOnu      StatInactiveOnu[]
   StatOnuDevice        StatOnuDevice[]
   StatOnuOpticalSignal StatOnuOpticalSignal[]
-  StatInactiveOnu      StatInactiveOnu[]
 }
 
 model StatOnuDevice {
   id              Int           @id @default(autoincrement())
-  eponBoard       Int
-  eponPort        Int
-  eponInterface   Int
   vendorId        String
   modelId         String
   macAddressOnu   String
@@ -76,8 +70,11 @@ model StatOnuDevice {
   status          String
   deregReason     String
   createdAt       DateTime      @default(now())
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
   networkDeviceId Int
+  eponBoard       Int
+  eponPort        Int
+  eponInterface   Int
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
   @@index([macAddressOnu])
   @@index([status])
@@ -91,8 +88,8 @@ model StatOnuOpticalSignal {
   rxPower         Float
   txPower         Float
   createdAt       DateTime      @default(now())
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
   networkDeviceId Int
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 }
 
 model StatInactiveOnu {
@@ -106,9 +103,9 @@ model StatInactiveOnu {
   lastRegister    DateTime
   lastDeregister  DateTime
   createdAt       DateTime      @default(now())
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
   networkDeviceId Int
   newest          Boolean       @default(true)
+  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
   @@index([macAddressOnu])
   @@index([status])
