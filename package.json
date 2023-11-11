@@ -33,5 +33,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/zhoro/ndce"
-  }
+  },
+  "keywords": ["network", "device", "command", "pon", "bdcom", "isp"]
 }
