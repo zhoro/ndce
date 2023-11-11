@@ -14,7 +14,8 @@
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "db:introspect": "dotenv -- prisma introspect",
-    "db:generate": "dotenv -- prisma generate"
+    "db:generate": "dotenv -- prisma generate",
+    "docs": "typedoc src/**/*.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.5.2",
@@ -34,5 +35,12 @@
     "type": "git",
     "url": "https://github.com/zhoro/ndce"
   },
-  "keywords": ["network", "device", "command", "pon", "bdcom", "isp"]
+  "keywords": [
+    "network",
+    "device",
+    "command",
+    "pon",
+    "bdcom",
+    "isp"
+  ]
 }
