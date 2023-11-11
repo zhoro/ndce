@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv';
 import Debug from 'debug';
-import {DeviceManagementAccess} from "./core/network/DeviceManagementAccess";
-import {DeviceHost} from "./core/network/DeviceHost";
-import {NetworkDevice} from "./core/network/NetworkDevice";
-import {DeviceCredentials} from "./core/network/DeviceCredentials";
-import {networkDevices} from "./core/devices";
+import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
+import {DeviceHost} from "../core/network/DeviceHost";
+import {NetworkDevice} from "../core/network/NetworkDevice";
+import {DeviceCredentials} from "../core/network/DeviceCredentials";
+import {networkDevices} from "../core/devices";
 
 dotenv.config();
 

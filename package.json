@@ -2,8 +2,10 @@
   "name": "@zhoro/ndce",
   "version": "0.0.1",
   "description": "A simple application to execute commands on network devices and store the output in a database for later analysis.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "ts-node src/start.ts",
+    "start": "ts-node src/example-usage/start.ts",
     "clean": "tsc --build --clean",
     "build": "tsc --build",
     "db:introspect": "dotenv -- prisma introspect",

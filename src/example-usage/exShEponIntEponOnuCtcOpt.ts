@@ -1,11 +1,11 @@
 import Debug from "debug";
 import {PrismaClient} from "@prisma/client";
-import {getNetworkDevices} from "./core/utils/getNetworkDevices";
-import {networkDevices} from "./core/devices";
-import {DeviceAccessType} from "./core/network/DeviceAccessType";
-import {NetworkDevice} from "./core/network/NetworkDevice";
-import {DeviceManagementAccess} from "./core/network/DeviceManagementAccess";
-import {DeviceHost} from "./core/network/DeviceHost";
+import {getNetworkDevices} from "../core/utils/getNetworkDevices";
+import {networkDevices} from "../core/devices";
+import {DeviceAccessType} from "../core/network/DeviceAccessType";
+import {NetworkDevice} from "../core/network/NetworkDevice";
+import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
+import {DeviceHost} from "../core/network/DeviceHost";
 
 /***
  * Show epon interface epon onu ctc optical command for network devices

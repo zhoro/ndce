@@ -1,11 +1,11 @@
 import {PrismaClient, StatOnuDevice} from "@prisma/client";
 import Debug from "debug";
-import {DeviceHost} from "./core/network/DeviceHost";
-import {DeviceAccessType} from "./core/network/DeviceAccessType";
-import {NetworkDevice} from "./core/network/NetworkDevice";
-import {DeviceManagementAccess} from "./core/network/DeviceManagementAccess";
-import {networkDevices} from "./core/devices";
-import {getNetworkDevices} from "./core/utils/getNetworkDevices";
+import {DeviceHost} from "../core/network/DeviceHost";
+import {DeviceAccessType} from "../core/network/DeviceAccessType";
+import {NetworkDevice} from "../core/network/NetworkDevice";
+import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
+import {networkDevices} from "../core/devices";
+import {getNetworkDevices} from "../core/utils/getNetworkDevices";
 
 /***
  * Show epon onu info interface command for network devices
