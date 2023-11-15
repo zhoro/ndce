@@ -1,4 +1,4 @@
-import {PrismaClient, StatOnuDevice} from "@prisma/client";
+import {PrismaClient, StatOnuDevice} from "../generated/prisma-client";
 import Debug from "debug";
 import {DeviceHost} from "../core/network/DeviceHost";
 import {DeviceAccessType} from "../core/network/DeviceAccessType";

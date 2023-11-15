@@ -33,3 +33,4 @@ export {IBdcomOnuDevice} from "./core/devices/bdcom/generic/interfaces/IBdcomOnu
 export {IBdcomOnuInterfaceEponOpticalDetails} from "./core/devices/bdcom/generic/interfaces/IBdcomOnuInterfaceDetails";
 
 export * from "./core/utils/getNetworkDevices";
+export * from "./generated/prisma-client";

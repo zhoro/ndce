@@ -4,7 +4,12 @@
 out/
 src/
 tmp/
+docs/
+prisma/
+tests/
+dist/example-*
 logs
+jest.*
 *.log
 *.map
 npm-debug.log*

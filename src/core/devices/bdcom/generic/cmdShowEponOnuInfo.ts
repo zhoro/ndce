@@ -1,7 +1,7 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomOnuDevice} from "./interfaces/IBdcomOnuDevice";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
-import {StatOnuDevice} from "@prisma/client";
+import {StatOnuDevice} from "../../../../generated/prisma-client";
 
 /***
  * This command is used to show epon onu info interface

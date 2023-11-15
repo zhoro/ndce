@@ -1,6 +1,6 @@
 ## About the project
 
-This is a simple project to execute different commands on a remote network devices using telnet protocol. 
+This is a simple project to execute different commands on a remote network devices using telnet protocol.
 Stores the results in a database.
 
 ## Supported devices
@@ -38,13 +38,22 @@ Also set the following DB environment variables (example for postgresql):
 ```
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
+
+In your code import the PrismaClient class and create an instance of it:
+
+```
+import {PrismaClient} from '@zhoro/ndce';
+const prisma = new PrismaClient();
+
+```
+
 For more information about Prisma setup environment see [here](https://pris.ly/d/getting-started).
 
 ## Usage
 
- - `initDatabaseSample.ts` - fills the database with sample data
- - `start.ts` - sample commands execution
- - `exCron.ts` - sample cron job execution
+- `initDatabaseSample.ts` - fills the database with sample data
+- `start.ts` - sample commands execution
+- `exCron.ts` - sample cron job execution
 
 ## Contact
 

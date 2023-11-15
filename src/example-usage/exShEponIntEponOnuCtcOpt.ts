@@ -1,5 +1,5 @@
 import Debug from "debug";
-import {PrismaClient} from "@prisma/client";
+import {PrismaClient} from "../generated/prisma-client";
 import {getNetworkDevices} from "../core/utils/getNetworkDevices";
 import {networkDevices} from "../core/devices";
 import {DeviceAccessType} from "../core/network/DeviceAccessType";

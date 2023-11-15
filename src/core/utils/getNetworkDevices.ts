@@ -1,4 +1,4 @@
-import {PrismaClient} from "@prisma/client";
+import {PrismaClient} from "../../generated/prisma-client";
 
 /***
  * Get all network devices from the database
