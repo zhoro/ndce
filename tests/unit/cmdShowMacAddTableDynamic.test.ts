@@ -1,9 +1,9 @@
 import {cmdShowMacAddTableDynamic} from '../../src/core/devices/bdcom/generic/cmdShowMacAddTableDynamic';
-import {IBdcomMacAddTable} from "../../src";
+import {IBdcomMacAddTable} from '../../src';
 
 describe('cmdShowMacAddTableDynamic', () => {
     it('should return an array with the correct structure for g interface', () => {
-        const mockData: string = '889     8476.fa9c.4023    DYNAMIC    g0/6';
+        const mockData: string = '889     8476.fa9c.4023    DYNAMIC    g0/6'
         const expectedOutput: IBdcomMacAddTable[] = [
             {
                 vlan: '889',
@@ -21,7 +21,7 @@ describe('cmdShowMacAddTableDynamic', () => {
         ];
         const receivedOutput = cmdShowMacAddTableDynamic.analyzer(mockData);
         expect(receivedOutput).toEqual(expectedOutput);
-    });
+    })
 
     it('should return an array with the correct structure for epon interface', () => {
         const mockData: string = '212     f8d1.1197.1c73    DYNAMIC    epon0/2:59';
@@ -63,5 +63,15 @@ describe('cmdShowMacAddTableDynamic', () => {
         ];
         const receivedOutput = cmdShowMacAddTableDynamic.analyzer(mockData);
         expect(receivedOutput).toEqual(expectedOutput);
+    });
+
+    describe('cmdShowMacAddTableDynamic', () => {
+        it('should return the correct command string', () => {
+            const result = cmdShowMacAddTableDynamic.command()
+
+            const expectedCommand = 'sh mac address-table dynamic'
+
+            expect(result).toEqual(expectedCommand)
+        });
     });
 });
