@@ -42,7 +42,7 @@ DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=pub
 Apply migrations:
 
 ```
-npmnpx prisma migrate deploy --schema=./node_modules/@zhoro/ndce/prisma/schema.prisma
+npx prisma migrate deploy --schema=./node_modules/@zhoro/ndce/prisma/schema.prisma
 ```
 
 In your code import the PrismaClient class and create an instance of it:
