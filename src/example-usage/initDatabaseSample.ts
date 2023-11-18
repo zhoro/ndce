@@ -2,12 +2,17 @@ import {PrismaClient} from '../generated/prisma-client';
 
 const prisma = new PrismaClient()
 
+const vendorName = 'BDCOM';
+const deviceTypeValue = 'olt';
+const deviceModelValue = 'generic';
+const deviceIpAddressV4 = '10.12.0.58';
+
 async function main() {
     //search DeviceVendor
     let vendor;
     vendor = await prisma.deviceVendor.findUnique({
         where: {
-            name: 'BDCOM'
+            name: vendorName
         }
     });
 
@@ -16,7 +21,7 @@ async function main() {
         try {
             const createVendor = await prisma.deviceVendor.create({
                 data: {
-                    name: 'BDCOM'
+                    name: vendorName
                 }
             })
             console.log('DeviceVendor created');
@@ -33,7 +38,7 @@ async function main() {
     let deviceType
     deviceType = await prisma.deviceType.findUnique({
         where: {
-            type: 'olt'
+            type: deviceTypeValue
         }
     });
 
@@ -42,7 +47,7 @@ async function main() {
         try {
             const createDeviceType = await prisma.deviceType.create({
                 data: {
-                    type: 'olt'
+                    type: deviceTypeValue
                 }
             });
             console.log('DeviceType created');
@@ -59,7 +64,7 @@ async function main() {
     let deviceModel
     deviceModel = await prisma.deviceModel.findUnique({
         where: {
-            name: 'generic',
+            name: deviceModelValue,
             vendorId: vendor.id,
             deviceTypeId: deviceType.id
         }
@@ -69,7 +74,7 @@ async function main() {
         try {
             const createDeviceModel = await prisma.deviceModel.create({
                 data: {
-                    name: 'generic',
+                    name: deviceModelValue,
                     vendor: {
                         connect: {
                             id: vendor.id
@@ -123,7 +128,7 @@ async function main() {
     let networkDevice;
     networkDevice = await prisma.networkDevice.findUnique({
         where: {
-            accessIpAddressV4: '10.12.0.58',
+            accessIpAddressV4: deviceIpAddressV4,
         }
     });
     //add NetworkDevice
@@ -136,7 +141,7 @@ async function main() {
                             id: deviceModel.id
                         }
                     },
-                    accessIpAddressV4: '10.12.0.58',
+                    accessIpAddressV4: deviceIpAddressV4,
                     accessPort: '23',
                     accessType: 'telnet',
                     deviceCredential: {
