@@ -32,11 +32,17 @@ CLIENT_USERNAME=admin-x
 CLIENT_PASSWORD=password-y
 ```
 
-Where CLIENT_USERNAME and CLIENT_PASSWORD are the credentials for the network device.
+Where CLIENT_USERNAME and CLIENT_PASSWORD are the default credentials for the network device.
 Also set the following DB environment variables (example for postgresql):
 
 ```
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+```
+
+Apply migrations:
+
+```
+npmnpx prisma migrate deploy --schema=./node_modules/@zhoro/ndce/prisma/schema.prisma
 ```
 
 In your code import the PrismaClient class and create an instance of it:
@@ -46,6 +52,7 @@ import {PrismaClient} from '@zhoro/ndce';
 const prisma = new PrismaClient();
 
 ```
+
 
 For more information about Prisma setup environment see [here](https://pris.ly/d/getting-started).
 

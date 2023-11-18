@@ -5,7 +5,6 @@ out/
 src/
 tmp/
 docs/
-prisma/
 tests/
 dist/example-*
 logs

@@ -52,6 +52,7 @@ model NetworkDevice {
   accessIpAddressV4    String                 @unique
   accessType           String                 @default("telnet")
   accessPort           String                 @default("23")
+  description          String                 @default("")
   deviceModelId        Int
   deviceCredentialId   Int
   deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
