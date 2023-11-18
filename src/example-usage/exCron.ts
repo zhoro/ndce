@@ -1,8 +1,10 @@
+import * as dotenv from "dotenv";
 import Debug from "debug";
 import {exCmdShowEponOnuInfoInterface} from "./exShEponOnuInfoInterface";
 import {exCmdShowEponIntEponOnuCtcOpt} from "./exShEponIntEponOnuCtcOpt";
 import {exCmdShEponInactiveOnu} from "./exShEponInactiveOnu";
 
+dotenv.config();
 const debug = Debug('ndce:exCron');
 Debug.enable(process.env.DEBUG_MODE || 'false');
 
