@@ -59,7 +59,7 @@ async function main() {
     let deviceModel
     deviceModel = await prisma.deviceModel.findUnique({
         where: {
-            name: 'general',
+            name: 'generic',
             vendorId: vendor.id,
             deviceTypeId: deviceType.id
         }
