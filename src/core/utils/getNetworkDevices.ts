@@ -1,11 +1,26 @@
-import {PrismaClient} from "../../generated/prisma-client";
+import {Prisma, PrismaClient} from "../../generated/prisma-client";
+
+const includeDevicesWithModelsAndCredentials = {
+    deviceModel: {
+        include: {
+            deviceType: true,
+            vendor: true,
+        },
+    },
+    deviceCredential: true,
+};
+
+const networkDevicesWithModelsAndCredentials =
+    Prisma.validator<Prisma.NetworkDeviceDefaultArgs>()({include: includeDevicesWithModelsAndCredentials});
+
+export type NetworkDevicesWithModelsAndCredentials = Prisma.NetworkDeviceGetPayload<typeof networkDevicesWithModelsAndCredentials>;
 
 /***
  * Get all network devices from the database
  * @param prisma client instance
  * @param devId optional device id, default value is 0 for all devices
  */
-export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0) {
+export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0) : Promise<NetworkDevicesWithModelsAndCredentials[]> {
 
     let includeOptions = {}
     const devices: number[] = []
@@ -22,15 +37,7 @@ export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0)
 
     try {
         return prisma.networkDevice.findMany({
-            include: {
-                deviceModel: {
-                    include: {
-                        deviceType: true,
-                        vendor: true
-                    }
-                },
-                deviceCredential: true
-            },
+            include: includeDevicesWithModelsAndCredentials,
             ...includeOptions
         });
     } catch (e) {
