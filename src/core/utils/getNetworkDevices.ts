@@ -18,23 +18,23 @@ export type NetworkDevicesWithModelsAndCredentials = Prisma.NetworkDeviceGetPayl
 /***
  * Get all network devices from the database
  * @param prisma client instance
- * @param devId optional device id, default value is 0 for all devices
+ * @param devId device id, 0 - for all devices otherwise, only device with this id will be returned
+ * @param enabled enabled flag, true - only enabled devices, false - all devices (enabled and disabled)
  */
-export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0) : Promise<NetworkDevicesWithModelsAndCredentials[]> {
-
-    let includeOptions = {}
-    const devices: number[] = []
-    if (devId > 0) {
-        devices.push(devId);
-        includeOptions = {
-            where: {
-                id: {
-                    in: devices
-                }
-            }
-        };
+export async function getNetworkDevices(prisma: PrismaClient, devId: number = 0, enabled: boolean = true): Promise<NetworkDevicesWithModelsAndCredentials[]> {
+    const status = enabled ? {
+        enabled: true
+    } : {}
+    let includeOptions = {
+        where: {
+            id: devId > 0 ? {
+                equals: devId
+            } : {
+                gte: devId
+            },
+            ...status
+        }
     }
-
     try {
         return prisma.networkDevice.findMany({
             include: includeDevicesWithModelsAndCredentials,

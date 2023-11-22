@@ -61,6 +61,7 @@ model NetworkDevice {
   StatInactiveOnu      StatInactiveOnu[]
   StatOnuDevice        StatOnuDevice[]
   StatOnuOpticalSignal StatOnuOpticalSignal[]
+  enabled              Boolean                @default(true)
 }
 
 model StatOnuDevice {
