@@ -24,7 +24,6 @@ export const cmdShowXponOnuInfo = (boardNumber: number = 0, portNumber: number):
                 const onuObject: IBdcomOnuDevice = {
                     xponType: "gpon",
                     serialNumberOnu,
-                    configStatus,
                     macAddressOnu: "",
                     xponBoard: +gponBoard,
                     xponPort: +gponPort,
