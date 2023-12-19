@@ -65,7 +65,7 @@ export class NetworkDevice {
     async login() {
         try {
             if (this.transport.isConnected) {
-                const result = await this.transport.login(this.device.configuration.messageAuthFailed);
+                const result = await this.transport.login(this.device.configuration.messageAuthFailed, this.device.configuration.messageLoginPrompt);
                 if (!this.transport.isLogged) {
                     this.debug('NetworkDevice.login: ' + result)
                     return Promise.reject(this.device.configuration.messageAuthFailed)

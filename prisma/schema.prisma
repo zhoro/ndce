@@ -68,27 +68,30 @@ model StatOnuDevice {
   id              Int           @id @default(autoincrement())
   vendorId        String
   modelId         String
-  macAddressOnu   String
+  macAddressOnu   String        @default("")
+  serialNumberOnu String        @default("")
   description     String
   bindType        String
   status          String
   deregReason     String
   createdAt       DateTime      @default(now())
   networkDeviceId Int
-  eponBoard       Int
-  eponPort        Int
-  eponInterface   Int
+  xponBoard       Int
+  xponPort        Int
+  xponInterface   Int
+  xponType        String        @default("pon")
   networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
   @@index([macAddressOnu])
+  @@index([serialNumberOnu])
   @@index([status])
 }
 
 model StatOnuOpticalSignal {
   id              Int           @id @default(autoincrement())
-  eponBoard       Int
-  eponPort        Int
-  eponInterface   Int
+  xponBoard       Int
+  xponPort        Int
+  xponInterface   Int
   rxPower         Float
   txPower         Float
   createdAt       DateTime      @default(now())
@@ -98,10 +101,11 @@ model StatOnuOpticalSignal {
 
 model StatInactiveOnu {
   id              Int           @id @default(autoincrement())
-  eponBoard       Int
-  eponPort        Int
-  eponInterface   Int
+  xponBoard       Int
+  xponPort        Int
+  xponInterface   Int
   macAddressOnu   String
+  serialNumberOnu String        @default("")
   status          String
   deregReason     String
   lastRegister    DateTime
@@ -112,5 +116,6 @@ model StatInactiveOnu {
   networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
   @@index([macAddressOnu])
+  @@index([serialNumberOnu])
   @@index([status])
 }

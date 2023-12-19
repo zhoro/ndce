@@ -14,11 +14,11 @@ export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum
         },
         analyzer: (data) => {
             let input = data.replace(/\r\n/g, " ");
-            const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+((g(\d+)\/(\d+))|(epon(\d+)\/(\d+):(\d+))))/gm;
+            const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+(((tg|g)(\d+)\/(\d+))|((epon|gpon)(\d+)\/(\d+):(\d+))))/gm;
             const macInfo: any[] = [];
             let match
             while ((match = regex.exec(input)) !== null) {
-                const [, wholeMatch, vlan, mac, type, fullInterface, ethFullInt, ethBoard, ethPort, ponFullInt, ponBoard, ponPort, ponInt,] = match;
+                const [, wholeMatch, vlan, mac, type, fullInterface, ethFullInt, ethType, ethBoard, ethPort, ponFullInt, ponType, ponBoard, ponPort, ponInt,] = match;
                 const macObject: IBdcomMacAddTable = {
                     vlan,
                     mac,

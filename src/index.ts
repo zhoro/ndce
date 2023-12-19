@@ -26,11 +26,11 @@ export {IDeviceConnection} from "./core/network/interfaces/IDeviceConnection";
 export {IDevicePortsCount} from "./core/network/interfaces/IDevicePortsCount";
 
 export {IBdcomCpuUtilization} from "./core/devices/bdcom/generic/interfaces/IBdcomCpuUtilization";
-export {IBdcomEponOptTrDiagInt} from "./core/devices/bdcom/generic/interfaces/IBdcomEponOptTrDiagInt";
+export {IBdcomXponOptTrDiagInt} from "./core/devices/bdcom/generic/interfaces/IBdcomXponOptTrDiagInt";
 export {IBdcomInactiveOnu} from "./core/devices/bdcom/generic/interfaces/IBdcomInactiveOnu";
 export {IBdcomMacAddTable} from "./core/devices/bdcom/generic/interfaces/IBdcomMacAddTable";
 export {IBdcomOnuDevice} from "./core/devices/bdcom/generic/interfaces/IBdcomOnuDevice";
-export {IBdcomOnuInterfaceEponOpticalDetails} from "./core/devices/bdcom/generic/interfaces/IBdcomOnuInterfaceDetails";
+export {IBdcomOnuInterfaceXponOpticalDetails} from "./core/devices/bdcom/generic/interfaces/IBdcomOnuInterfaceDetails";
 
 export * from "./core/utils/getNetworkDevices";
 export * from "./generated/prisma-client";

@@ -4,8 +4,8 @@ const prisma = new PrismaClient()
 
 const vendorName = 'BDCOM';
 const deviceTypeValue = 'olt';
-const deviceModelValue = 'generic';
-const deviceIpAddressV4 = '10.12.0.58';
+const deviceModelValue = 'GP3600_08B';
+const deviceIpAddressV4 = '10.12.0.99';
 
 async function main() {
     //search DeviceVendor

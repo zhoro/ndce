@@ -1,20 +1,20 @@
 import {IDeviceConfiguration} from "../../../network/interfaces/IDeviceConfiguration";
 import {DeviceType} from "../../../network/DeviceType";
 import {DeviceAccessType} from "../../../network/DeviceAccessType";
-import {cmdShowCpu} from "./cmdShowCpu";
-import {cmdEnable} from "./cmdEnable";
+import {cmdShowCpu} from "../generic/cmdShowCpu";
+import {cmdEnable} from "../generic/cmdEnable";
 import {cmdShowXponOnuInfo} from "./cmdShowXponOnuInfo";
 import {cmdShowXponIntXponOnuOpt} from "./cmdShowXponIntXponOnuOpt";
 import {cmdShowXponInactiveOnu} from "./cmdShowXponInactiveOnu";
 import {cmdShowXponOptTrDiagInt} from "./cmdShowXponOptTrDiagInt";
-import {cmdShowMacAddTableDynamic} from "./cmdShowMacAddTableDynamic";
-import {cmdShowMacAddTableInt} from "./cmdShowMacAddTableInt";
+import {cmdShowMacAddTableDynamic} from "../generic/cmdShowMacAddTableDynamic";
+import {cmdShowMacAddTableInt} from "../generic/cmdShowMacAddTableInt";
+import {PonType} from "../generic/interfaces/IBdcomPonType";
 import {IOltConfiguration} from "../../../network/interfaces/IOltConfiguration";
-import {PonType} from "./interfaces/IBdcomPonType";
 
 const type: DeviceType = 'olt';
 
-const ponType: PonType = 'epon';
+const ponType: PonType = 'gpon';
 
 // device access type: telnet or ssh
 const deviceAccessTypes: DeviceAccessType = "telnet";
@@ -38,13 +38,13 @@ const boards = [0];
 // ETH - Fast Ethernet ports
 // XGE - 10 Gigabit Ethernet ports
 const portsCount = {
-    PON: 4,
-    GE: 6,
+    PON: 8,
+    GE: 8,
     ETH: 0,
-    XGE: 0
+    XGE: 4
 };
 
-export const generic_epon: { configuration: IDeviceConfiguration & IOltConfiguration, commands: any } = {
+export const generic_gpon: { configuration: IDeviceConfiguration & IOltConfiguration, commands: any } = {
     configuration: {
         type,
         ponType,

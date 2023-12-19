@@ -8,7 +8,7 @@ import {StatOnuDevice} from "../../../../generated/prisma-client";
  * @param boardNumber - default value is 0
  * @param portNumber - port number
  */
-export const cmdShowEponOnuInfo = (boardNumber: number = 0, portNumber: number): IDeviceCommand<StatOnuDevice> => {
+export const cmdShowXponOnuInfo = (boardNumber: number = 0, portNumber: number): IDeviceCommand<StatOnuDevice> => {
     return {
         ...defaultCmdParams,
         command: () => {
@@ -20,18 +20,23 @@ export const cmdShowEponOnuInfo = (boardNumber: number = 0, portNumber: number):
             const onuDevices: any[] = [];
             let match;
             while ((match = regex.exec(input)) !== null) {
-                const [, wholeMatch, eponBoard, eponPort, eponInterface, vendorId, modelId, macAddressOnu, description, bindType, status, deregReason] = match;
+                const [, wholeMatch, xponBoard, xponPort, xponInterface, vendorId, modelId, macAddressOnu, description, bindType, status, deregReason] = match;
                 const onuObject: IBdcomOnuDevice = {
-                    eponBoard: +eponBoard,
-                    eponPort: +eponPort,
-                    eponInterface: +eponInterface,
+                    xponType: "epon",
+                    serialNumberOnu: "",
+                    activeTime: "",
+                    configStatus: "",
+                    loid: "",
+                    xponBoard: +xponBoard,
+                    xponPort: +xponPort,
+                    xponInterface: +xponInterface,
                     vendorId,
                     modelId,
                     macAddressOnu,
                     description,
                     bindType,
                     status,
-                    deregReason,
+                    deregReason
                 };
                 onuDevices.push(onuObject);
             }

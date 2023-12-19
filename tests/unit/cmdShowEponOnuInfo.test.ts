@@ -1,11 +1,11 @@
-import { cmdShowEponOnuInfo } from '../../src/core/devices/bdcom/generic/cmdShowEponOnuInfo'
+import { cmdShowXponOnuInfo } from '../../src/core/devices/bdcom/generic/cmdShowXponOnuInfo'
 
 describe('cmdShowEponOnuInfo', () => {
     describe('analyzer', () => {
         it('should return an object with the correct structure', () => {
             const boardNumber = 0
             const portNumber = 1
-            const result = cmdShowEponOnuInfo(boardNumber, portNumber)
+            const result = cmdShowXponOnuInfo(boardNumber, portNumber)
 
             // Mock data to simulate the response from the device
             const mockData =
@@ -13,9 +13,12 @@ describe('cmdShowEponOnuInfo', () => {
 
             const expectedOutput = [
                 {
-                    eponBoard: 0,
-                    eponPort: 1,
-                    eponInterface: 53,
+                    activeTime: '',
+                    xponBoard: 0,
+                    configStatus: '',
+                    loid: '',
+                    xponPort: 1,
+                    xponInterface: 53,
                     vendorId: 'FHTT',
                     modelId: 'XPON',
                     macAddressOnu: 'a394.6780.7317',
@@ -23,6 +26,8 @@ describe('cmdShowEponOnuInfo', () => {
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',
+                    serialNumberOnu: '',
+                    xponType: 'epon',
                 },
             ]
 
@@ -35,7 +40,7 @@ describe('cmdShowEponOnuInfo', () => {
             const boardNumber = 0
             const portNumber = 1
 
-            const result = cmdShowEponOnuInfo(boardNumber, portNumber)
+            const result = cmdShowXponOnuInfo(boardNumber, portNumber)
 
             const expectedCommand = `show epon onu-info int epon${boardNumber}/${portNumber}`
 
@@ -49,7 +54,7 @@ describe('cmdShowEponOnuInfo', () => {
         it('should correctly parse multiple lines of data', () => {
             const boardNumber = 0
             const portNumber = 1
-            const result = cmdShowEponOnuInfo(boardNumber, portNumber)
+            const result = cmdShowXponOnuInfo(boardNumber, portNumber)
 
             // Mock data to simulate the response from the device
             const mockData = `
@@ -59,9 +64,9 @@ describe('cmdShowEponOnuInfo', () => {
 
             const expectedOutput = [
                 {
-                    eponBoard: 0,
-                    eponPort: 1,
-                    eponInterface: 53,
+                    xponBoard: 0,
+                    xponPort: 1,
+                    xponInterface: 53,
                     vendorId: 'FHTT',
                     modelId: 'XPON',
                     macAddressOnu: 'a394.6780.7317',
@@ -69,11 +74,16 @@ describe('cmdShowEponOnuInfo', () => {
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',
+                    loid: '',
+                    serialNumberOnu: '',
+                    activeTime: '',
+                    configStatus: '',
+                    xponType: 'epon'
                 },
                 {
-                    eponBoard: 0,
-                    eponPort: 1,
-                    eponInterface: 54,
+                    xponBoard: 0,
+                    xponPort: 1,
+                    xponInterface: 54,
                     vendorId: 'FHTT',
                     modelId: 'XPON',
                     macAddressOnu: 'a394.6780.7318',
@@ -81,6 +91,11 @@ describe('cmdShowEponOnuInfo', () => {
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',
+                    loid: '',
+                    serialNumberOnu: '',
+                    activeTime: '',
+                    configStatus: '',
+                    xponType: 'epon'
                 },
             ]
             expect(result.analyzer(mockData)).toEqual(expectedOutput)
@@ -90,7 +105,7 @@ describe('cmdShowEponOnuInfo', () => {
     describe('default boardNumber', () => {
         it('should use default boardNumber when not provided', () => {
             const portNumber = 1
-            const result = cmdShowEponOnuInfo(undefined, portNumber)
+            const result = cmdShowXponOnuInfo(undefined, portNumber)
 
             const expectedCommand = `show epon onu-info int epon0/${portNumber}`
 

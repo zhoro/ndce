@@ -1,4 +1,4 @@
-import {cmdShowEponIntEponOnuCtcOpt} from '../../src/core/devices/bdcom/generic/cmdShowEponIntEponOnuCtcOpt'
+import {cmdShowXponIntXponOnuOpt} from '../../src/core/devices/bdcom/generic/cmdShowXponIntXponOnuOpt'
 
 describe('cmdShowEponIntEponOnuCtcOpt', () => {
     describe('analyzer', () => {
@@ -6,7 +6,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
             const boardNumber = 0;
             const portNumber = 1;
             const interfaceNumber = 53;
-            const result = cmdShowEponIntEponOnuCtcOpt(
+            const result = cmdShowXponIntXponOnuOpt(
                 boardNumber,
                 portNumber,
                 interfaceNumber
@@ -38,7 +38,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
             const portNumber = 1
             const interfaceNumber = 53
 
-            const result = cmdShowEponIntEponOnuCtcOpt(
+            const result = cmdShowXponIntXponOnuOpt(
                 boardNumber,
                 portNumber,
                 interfaceNumber
@@ -53,7 +53,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
         it('should use default boardNumber when not provided', () => {
             const portNumber = 1;
             const interfaceNumber = 53;
-            const result = cmdShowEponIntEponOnuCtcOpt(
+            const result = cmdShowXponIntXponOnuOpt(
                 undefined,
                 portNumber,
                 interfaceNumber
@@ -71,7 +71,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                 const boardNumber = 0;
                 const portNumber = 1;
                 const interfaceNumber = 53;
-                const result = cmdShowEponIntEponOnuCtcOpt(
+                const result = cmdShowXponIntXponOnuOpt(
                     boardNumber,
                     portNumber,
                     interfaceNumber

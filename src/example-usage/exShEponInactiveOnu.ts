@@ -63,7 +63,7 @@ export async function exCmdShEponInactiveOnu(networkDeviceId: number = 0, boardN
             }
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
-                const inactiveOnus: IBdcomInactiveOnu[] = await device.execute(devConf.commands.cmdShowEponInactiveOnu);
+                const inactiveOnus: IBdcomInactiveOnu[] = await device.execute(devConf.commands.cmdShowXponInactiveOnu);
                 debug('OnuOpticalSignal: ' + JSON.stringify(inactiveOnus));
                 //set all previous inactive ONUs to newest = false
                 await prisma.statInactiveOnu.updateMany({
@@ -91,17 +91,20 @@ export async function exCmdShEponInactiveOnu(networkDeviceId: number = 0, boardN
 
     async function processInactiveOnu(inactiveOnu: IBdcomInactiveOnu, deviceId: number) {
         try {
+            const lastRegister = inactiveOnu.xponType === 'epon' ? new Date(`${inactiveOnu.lastRegDate} ${inactiveOnu.lastRegTime}`) : new Date(0);
+
             await prisma.statInactiveOnu.create({
                 data: {
-                    eponBoard: inactiveOnu.eponBoard,
-                    eponPort: inactiveOnu.eponPort,
-                    eponInterface: inactiveOnu.eponInterface,
+                    xponBoard: inactiveOnu.xponBoard,
+                    xponPort: inactiveOnu.xponPort,
+                    xponInterface: inactiveOnu.xponInterface,
                     macAddressOnu: inactiveOnu.macAddressOnu,
                     status: inactiveOnu.status,
                     deregReason: inactiveOnu.lastDeregReason,
-                    lastRegister: new Date(`${inactiveOnu.lastRegDate} ${inactiveOnu.lastRegTime}`),
+                    lastRegister: lastRegister,
                     lastDeregister: new Date(`${inactiveOnu.lastDeregDate} ${inactiveOnu.lastDeregTime}`),
-                    networkDeviceId: deviceId
+                    networkDeviceId: deviceId,
+                    serialNumberOnu: inactiveOnu.serialNumber,
                 }
             });
         } catch (error) {

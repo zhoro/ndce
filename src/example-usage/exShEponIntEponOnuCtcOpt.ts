@@ -64,7 +64,7 @@ export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boa
             }
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
-                const onuInfo = await device.execute(devConf.commands.cmdShowEponIntEponOnuCtcOpt(boardNumber, portNumber, interfaceNumber));
+                const onuInfo = await device.execute(devConf.commands.cmdShowXponIntEponOnuCtcOpt(boardNumber, portNumber, interfaceNumber));
                 debug('OnuOpticalSignal: ' + JSON.stringify(onuInfo));
                 if (onuInfo.opTxPower !== '' && onuInfo.opRxPower !== '') {
                     await prisma.statOnuOpticalSignal.create({
@@ -74,9 +74,9 @@ export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boa
                                     id: networkDevice.id
                                 }
                             },
-                            eponBoard: boardNumber,
-                            eponPort: portNumber,
-                            eponInterface: interfaceNumber,
+                            xponBoard: boardNumber,
+                            xponPort: portNumber,
+                            xponInterface: interfaceNumber,
                             txPower: +onuInfo.opTxPower,
                             rxPower: +onuInfo.opRxPower
                         }

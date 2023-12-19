@@ -1,8 +1,8 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
-import {IBdcomEponOptTrDiagInt} from "./interfaces/IBdcomEponOptTrDiagInt";
+import {IBdcomXponOptTrDiagInt} from "./interfaces/IBdcomXponOptTrDiagInt";
 
-export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand<IBdcomEponOptTrDiagInt> => {
+export const cmdShowXponOptTrDiagInt = (portNumber: string): IDeviceCommand<IBdcomXponOptTrDiagInt> => {
     return {
         ...defaultCmdParams,
         cmdParams: {
@@ -12,14 +12,14 @@ export const cmdShowEponOptTrDiagInt = (portNumber: string): IDeviceCommand<IBdc
         analyzer: (data) => {
             let input = data.replace(/\r\n/g, "");
             const regex = /(epon(\d)\/(\d):(\d{0,3})\s+(-?\d{1,2}.\d))/gm;
-            const onuInfo: IBdcomEponOptTrDiagInt[] = [];
+            const onuInfo: IBdcomXponOptTrDiagInt[] = [];
             let match
             while ((match = regex.exec(input)) !== null) {
-                const [, wholeMatch, eponBoard, eponPort, eponInterface, rxPower] = match;
-                const onuObject: IBdcomEponOptTrDiagInt = {
-                    eponBoard,
-                    eponPort,
-                    eponInterface,
+                const [, wholeMatch, xponBoard, xponPort, xponInterface, rxPower] = match;
+                const onuObject: IBdcomXponOptTrDiagInt = {
+                    xponBoard: xponBoard,
+                    xponPort: xponPort,
+                    xponInterface: xponInterface,
                     rxPower
                 }
                 onuInfo.push(onuObject);

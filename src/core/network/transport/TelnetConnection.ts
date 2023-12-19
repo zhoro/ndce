@@ -75,14 +75,14 @@ export class TelnetConnection implements IDeviceConnection {
         };
     }
 
-    async login(messageAuthFailed?: string) {
+    async login(messageAuthFailed?: string, messageLoginPrompt?: string) {
         this.debug('TelnetConnection.login');
         if (!this.isConnected) {
             throw new Error("Not connected");
         }
         await this.telnet.send(this.params.username);
         const result = await this.telnet.send(this.params.password);
-        if (result.includes(messageAuthFailed)) {
+        if (result.includes(messageAuthFailed) || result.includes(messageLoginPrompt)) {
             await Promise.reject(messageAuthFailed)
             this.isLogged = false;
         } else {

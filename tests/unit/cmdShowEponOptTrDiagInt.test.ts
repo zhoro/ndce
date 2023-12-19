@@ -1,17 +1,17 @@
-import {cmdShowEponOptTrDiagInt} from '../../src/core/devices/bdcom/generic/cmdShowEponOptTrDiagInt'
+import {cmdShowXponOptTrDiagInt} from '../../src/core/devices/bdcom/generic/cmdShowXponOptTrDiagInt'
 
 describe('cmdShowEponOptTrDiagInt', () => {
     describe('analyzer', () => {
         it('should return an array with the correct structure', () => {
             const portNumber = '1'
-            const result = cmdShowEponOptTrDiagInt(portNumber)
+            const result = cmdShowXponOptTrDiagInt(portNumber)
 
             const mockData = 'epon0/1:53   -24.6'
             const expectedOutput = [
                 {
-                    eponBoard: '0',
-                    eponPort: '1',
-                    eponInterface: '53',
+                    xponBoard: '0',
+                    xponPort: '1',
+                    xponInterface: '53',
                     rxPower: '-24.6',
                 },
             ]
@@ -23,7 +23,7 @@ describe('cmdShowEponOptTrDiagInt', () => {
     describe('cmdShowEponOptTrDiagInt', () => {
         it('should return the correct command string', () => {
             const portNumber = '1'
-            const result = cmdShowEponOptTrDiagInt(portNumber)
+            const result = cmdShowXponOptTrDiagInt(portNumber)
 
             const expectedCommand = `show epon optical-transceiver-diagnosis interface epon 0/${portNumber}`
 

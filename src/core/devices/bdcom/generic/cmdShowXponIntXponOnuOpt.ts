@@ -1,5 +1,5 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
-import {IBdcomOnuInterfaceEponOpticalDetails} from "./interfaces/IBdcomOnuInterfaceDetails";
+import {IBdcomOnuInterfaceXponOpticalDetails} from "./interfaces/IBdcomOnuInterfaceDetails";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
 /***
@@ -8,7 +8,7 @@ import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
     * @param portNumber
     * @param interfaceNumber
     */
-export const cmdShowEponIntEponOnuCtcOpt = (boardNumber: number = 0, portNumber: number, interfaceNumber: number): IDeviceCommand<IBdcomOnuInterfaceEponOpticalDetails> => {
+export const cmdShowXponIntXponOnuOpt = (boardNumber: number = 0, portNumber: number, interfaceNumber: number): IDeviceCommand<IBdcomOnuInterfaceXponOpticalDetails> => {
     return {
         ...defaultCmdParams,
         command: () => `show epon int epon${boardNumber}/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`,
@@ -21,7 +21,7 @@ export const cmdShowEponIntEponOnuCtcOpt = (boardNumber: number = 0, portNumber:
                 const [, value] = match;
                 onuInfo.push(value);
             }
-            const onuDetails: IBdcomOnuInterfaceEponOpticalDetails = {
+            const onuDetails: IBdcomOnuInterfaceXponOpticalDetails = {
                 opTemperature: onuInfo[0] || "",
                 opVoltage: onuInfo[1] || "",
                 opBiasCurrent: onuInfo[2] || "",

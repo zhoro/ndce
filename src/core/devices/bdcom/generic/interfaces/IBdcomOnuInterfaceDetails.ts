@@ -1,4 +1,4 @@
-export interface IBdcomOnuInterfaceEponOpticalDetails {
+export interface IBdcomOnuInterfaceXponOpticalDetails {
     opTemperature: string;
     opVoltage: string;
     opBiasCurrent: string;

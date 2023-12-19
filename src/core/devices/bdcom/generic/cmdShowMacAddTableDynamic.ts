@@ -10,11 +10,11 @@ export const cmdShowMacAddTableDynamic: IDeviceCommand<IBdcomMacAddTable> = {
     command: () => 'sh mac address-table dynamic',
     analyzer: (data) => {
         let input = data.replace(/\r\n/g, " ");
-        const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+((t?g(\d+)\/(\d+))|(epon(\d+)\/(\d+):(\d+))))/gm;
+        const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+((t?g(\d+)\/(\d+))|((epon|gpon)(\d+)\/(\d+):(\d+))))/gm;
         const macInfo: IBdcomMacAddTable[] = [];
         let match
         while ((match = regex.exec(input)) !== null) {
-            const [, wholeMatch, vlan, mac, type, fullInterface, ethFullInt, ethBoard, ethPort, ponFullInt, ponBoard, ponPort, ponInt,] = match;
+            const [, wholeMatch, vlan, mac, type, fullInterface, ethFullInt, ethBoard, ethPort, ponFullInt, ponType, ponBoard, ponPort, ponInt,] = match;
             const macObject: IBdcomMacAddTable = {
                 vlan,
                 mac,

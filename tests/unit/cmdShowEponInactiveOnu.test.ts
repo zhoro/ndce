@@ -1,15 +1,18 @@
-import { cmdShowEponInactiveOnu } from '../../src/core/devices/bdcom/generic/cmdShowEponInactiveOnu';
+import { cmdShowXponInactiveOnu } from '../../src/core/devices/bdcom/generic/cmdShowXponInactiveOnu';
 
 describe('cmdShowEponInactiveOnu', () => {
   it('should correctly analyze the data', () => {
     const mockData = 'EPON0/5:19       a034.6181.93a8 lost             2023-04-10 15:40:24 2023-04-10 15:51:58 power-off         217.18:17:56';
-    const result = cmdShowEponInactiveOnu.analyzer(mockData);
+    const result = cmdShowXponInactiveOnu.analyzer(mockData);
     expect(result).toEqual([
       {
-        eponBoard: 0,
-        eponPort: 5,
-        eponInterface: 19,
+        xponType: 'epon',
+        xponBoard: 0,
+        xponPort: 5,
+        xponInterface: 19,
         macAddressOnu: 'a034.6181.93a8',
+        serialNumber: '',
+        loid: '',
         status: 'lost',
         lastRegDate: '2023-04-10',
         lastRegTime: '15:40:24',
@@ -23,7 +26,7 @@ describe('cmdShowEponInactiveOnu', () => {
   });
 
   it('should return correct command', () => {
-    const result = cmdShowEponInactiveOnu.command();
+    const result = cmdShowXponInactiveOnu.command();
     expect(result).toBe('show epon inactive-onu');
   });
 });

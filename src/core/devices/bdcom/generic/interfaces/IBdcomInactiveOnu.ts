@@ -1,8 +1,13 @@
+import {PonType} from "./IBdcomPonType";
+
 export interface IBdcomInactiveOnu {
-    eponBoard: number;
-    eponPort: number;
-    eponInterface: number;
+    xponType: PonType
+    xponBoard: number;
+    xponPort: number;
+    xponInterface: number;
     macAddressOnu: string;
+    serialNumber: string;
+    loid: string;
     status: string;
     lastRegDate: string;
     lastRegTime: string;

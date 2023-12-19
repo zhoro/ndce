@@ -13,7 +13,7 @@ export interface IDeviceConnection {
 
     get isLogged(): boolean
 
-    login(messageAuthFailed: string): Promise<void>;
+    login(messageAuthFailed: string, messageLoginPrompt:string): Promise<void>;
 
     logout(): Promise<void>;
 }

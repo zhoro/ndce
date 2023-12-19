@@ -1,4 +1,5 @@
-import {generic} from "./generic";
+import {generic_epon} from "./generic";
+import {generic_gpon} from "./generic-gpon";
 import {P3310D} from "./P3310D";
 import {P3608_2TE} from "./P3608_2TE";
 import {P3600_08E} from "./P3600_08E";
@@ -7,7 +8,8 @@ import {P3608B} from "./P3608B_08E";
 import {P3310C} from "./P3310C";
 
 export const BDCOM = {
-    generic,
+    generic_epon,
+    generic_gpon,
     P3310D,
     P3608_2TE,
     P3600_08E,

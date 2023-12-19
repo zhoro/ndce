@@ -2,7 +2,7 @@ import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomInactiveOnu} from "./interfaces/IBdcomInactiveOnu";
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
-export const cmdShowEponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
+export const cmdShowXponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
     ...defaultCmdParams,
     command: () => {
         return "show epon inactive-onu"
@@ -13,11 +13,14 @@ export const cmdShowEponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
         const deregisteredONUs: any[] = [];
         let match
         while ((match = regex.exec(input)) !== null) {
-            const [, wholeMatch, eponBoard, eponPort, eponInterface, macAddressOnu, status, lastRegDate, lastRegTime, lastDeregDate, lastDeregTime, lastDeregReason, absentDays, , , absentTime] = match;
+            const [, wholeMatch, xponBoard, xponPort, xponInterface, macAddressOnu, status, lastRegDate, lastRegTime, lastDeregDate, lastDeregTime, lastDeregReason, absentDays, , , absentTime] = match;
             const onuObject: IBdcomInactiveOnu = {
-                eponBoard: +eponBoard,
-                eponPort: +eponPort,
-                eponInterface: +eponInterface,
+                xponType: "epon",
+                xponBoard: +xponBoard,
+                xponPort: +xponPort,
+                xponInterface: +xponInterface,
+                loid: "",
+                serialNumber: "",
                 macAddressOnu,
                 status,
                 lastRegDate,
