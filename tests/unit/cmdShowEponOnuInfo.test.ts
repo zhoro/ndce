@@ -13,10 +13,8 @@ describe('cmdShowEponOnuInfo', () => {
 
             const expectedOutput = [
                 {
-                    activeTime: '',
                     xponBoard: 0,
                     configStatus: '',
-                    loid: '',
                     xponPort: 1,
                     xponInterface: 53,
                     vendorId: 'FHTT',
@@ -74,9 +72,7 @@ describe('cmdShowEponOnuInfo', () => {
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',
-                    loid: '',
                     serialNumberOnu: '',
-                    activeTime: '',
                     configStatus: '',
                     xponType: 'epon'
                 },
@@ -91,9 +87,7 @@ describe('cmdShowEponOnuInfo', () => {
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',
-                    loid: '',
                     serialNumberOnu: '',
-                    activeTime: '',
                     configStatus: '',
                     xponType: 'epon'
                 },
