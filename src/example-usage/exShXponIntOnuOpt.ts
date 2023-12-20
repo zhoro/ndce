@@ -20,20 +20,21 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
             debug(`no network devices found with id: ${networkDeviceId}. Exiting...`);
             return
         }
-        for (const networkDevice of networkDevs) {
+
+        const promises = networkDevs.map(async (networkDevice) => {
             if (networkDevice.deviceModel.deviceType.type !== 'olt') {
                 debug('device type is not OLT, skipping');
-                continue
+                return
             }
             const devConf = networkDevices[`${networkDevice.deviceModel.vendor.name}`][`${networkDevice.deviceModel.name}`];
             if (devConf === undefined) {
                 debug(`device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`);
-                continue
+                return
             }
             const boardNumber = devConf.configuration.boards[0];
             if (!devConf.configuration.boards.includes(boardNumber)) {
                 debug(`board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`);
-                continue
+                return
             }
             const transport = networkDevice.accessType as DeviceAccessType;
             const host = new DeviceHost(networkDevice.accessIpAddressV4, Number(networkDevice.accessPort));
@@ -53,7 +54,7 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
                 //get all interfaces for OLT
-                const interfaces = await getOnuInformation(networkDevice.id);
+                const interfaces = await getOnuInformation(prisma, networkDevice.id);
                 for (const intf of interfaces) {
                     if (offLineStatuses.includes(intf.status)) continue;
                     try {
@@ -74,7 +75,7 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
                                 }
                             });
                         } else {
-                            debug(`${intf.xponBoard}/${intf.xponPort}:${intf.xponInterface} onuInfo.opTxPower and/or onuInfo.opRxPower is empty, skipping...`);
+                            debug(`${intf.xponBoard}/${intf.xponPort}:${intf.xponInterface} onuInfo.opTxPower and/or onuInfo.opRxPower is empty on ${networkDevice.description} device, skipping...`);
                         }
                     } catch (e) {
                         debug(`Can't get optical signal for ${intf.xponBoard}/${intf.xponPort}:${intf.xponInterface} on ${networkDevice.description} device, skipping...`);
@@ -84,7 +85,9 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
             } else {
                 debug(`Can't login into ${networkDevice.description} device, skipping...`);
             }
-        }
+        });
+
+        await Promise.all(promises);
     } catch (e) {
         console.error('exCmdShowXponIntOnuOpt: ' + e);
     } finally {
@@ -92,8 +95,8 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
     }
 }
 
-async function getOnuInformation(networkDeviceId: number = 0, boardNumber = 0, portNumber = 0, interfaceNumber = 0) {
-    const prisma = new PrismaClient();
+async function getOnuInformation(prisma: PrismaClient, networkDeviceId: number = 0, boardNumber = 0, portNumber = 0, interfaceNumber = 0) {
+    // const prisma = new PrismaClient();
     const networkDevs = await getNetworkDevices(prisma, networkDeviceId);
     if (!networkDevs || networkDevs.length === 0) {
         throw new Error('Device not found');
