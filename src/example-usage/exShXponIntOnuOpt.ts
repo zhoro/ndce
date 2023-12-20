@@ -81,10 +81,10 @@ export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
                         debug(`Can't get optical signal for ${intf.xponBoard}/${intf.xponPort}:${intf.xponInterface} on ${networkDevice.description} device, skipping...`);
                     }
                 }
-                await device.disconnect();
             } else {
                 debug(`Can't login into ${networkDevice.description} device, skipping...`);
             }
+            await device.disconnect();
         });
 
         await Promise.all(promises);
