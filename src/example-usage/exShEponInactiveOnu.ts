@@ -89,10 +89,19 @@ export async function exCmdShEponInactiveOnu(networkDeviceId: number = 0, boardN
         await prisma.$disconnect();
     }
 
+    function isValidDate(date: Date): boolean {
+        return !isNaN(date.getTime());
+    }
     async function processInactiveOnu(inactiveOnu: IBdcomInactiveOnu, deviceId: number) {
+        let lastRegister = inactiveOnu.xponType === 'epon' ? new Date(`${inactiveOnu.lastRegDate} ${inactiveOnu.lastRegTime}`) : new Date(0);
+        let lastDeregister = new Date(`${inactiveOnu.lastDeregDate} ${inactiveOnu.lastDeregTime}`)
+        if (!isValidDate(lastRegister)) {
+            lastRegister = new Date(0)
+        }
+        if (!isValidDate(lastDeregister)) {
+            lastDeregister = new Date(0)
+        }
         try {
-            const lastRegister = inactiveOnu.xponType === 'epon' ? new Date(`${inactiveOnu.lastRegDate} ${inactiveOnu.lastRegTime}`) : new Date(0);
-
             await prisma.statInactiveOnu.create({
                 data: {
                     xponBoard: inactiveOnu.xponBoard,
@@ -102,7 +111,7 @@ export async function exCmdShEponInactiveOnu(networkDeviceId: number = 0, boardN
                     status: inactiveOnu.status,
                     deregReason: inactiveOnu.lastDeregReason,
                     lastRegister: lastRegister,
-                    lastDeregister: new Date(`${inactiveOnu.lastDeregDate} ${inactiveOnu.lastDeregTime}`),
+                    lastDeregister: lastDeregister,
                     networkDeviceId: deviceId,
                     serialNumberOnu: inactiveOnu.serialNumber,
                 }
@@ -111,6 +120,5 @@ export async function exCmdShEponInactiveOnu(networkDeviceId: number = 0, boardN
             console.error('Error while processing inactiveOnu:', error);
         }
     }
-
 }
 
