@@ -8,7 +8,7 @@ import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
 import {DeviceHost} from "../core/network/DeviceHost";
 
 //ONU statuses that are not considered as online
-const offLineStatuses = ['offline', 'off-line', 'deregistered', 'lost'];
+const offLineStatuses = ['offline', 'off-line', 'deregistered', 'lost', 'config-failed'];
 
 export async function exCmdShowXponIntOnuOpt(networkDeviceId: number = 0) {
     const prisma = new PrismaClient();
