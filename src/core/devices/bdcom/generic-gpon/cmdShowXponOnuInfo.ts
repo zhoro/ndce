@@ -15,7 +15,7 @@ export const cmdShowXponOnuInfo = (boardNumber: number = 0, portNumber: number):
             return `show gpon onu-info int gpon${boardNumber}/${portNumber}`;
         },
         analyzer: (data) => {
-            let input = data.replace(/\r\n/g, "");
+            let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
             const regex = /(GPON(\d)\/(\d):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s?(\S+)?)/gm
             const onuDevices: any[] = [];
             let match;

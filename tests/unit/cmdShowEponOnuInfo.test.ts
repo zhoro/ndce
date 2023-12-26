@@ -56,6 +56,7 @@ describe('cmdShowEponOnuInfo', () => {
             // Mock data to simulate the response from the device
             const mockData = `
       EPON0/1:53       FHTT     XPON       a394.6780.7317 PPPoE10-300M                    static   auto-configured  N/A
+      EPON0/1:56 FGEP      1001       8007.1b76.cb30 OlimpMotors-1754                static    auto-configured N/A
       EPON0/1:54       FHTT     XPON       a394.6780.7318 PPPoE10-300M                    static   auto-configured  N/A
     `
 
@@ -68,6 +69,19 @@ describe('cmdShowEponOnuInfo', () => {
                     modelId: 'XPON',
                     macAddressOnu: 'a394.6780.7317',
                     description: 'PPPoE10-300M',
+                    bindType: 'static',
+                    status: 'auto-configured',
+                    deregReason: 'N/A',
+                    serialNumberOnu: '',
+                    xponType: 'epon'
+                },{
+                    xponBoard: 0,
+                    xponPort: 1,
+                    xponInterface: 56,
+                    vendorId: 'FGEP',
+                    modelId: '1001',
+                    macAddressOnu: '8007.1b76.cb30',
+                    description: 'OlimpMotors-1754',
                     bindType: 'static',
                     status: 'auto-configured',
                     deregReason: 'N/A',

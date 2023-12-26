@@ -10,7 +10,7 @@ export const cmdShowXponOptTrDiagInt = (portNumber: string): IDeviceCommand<IBdc
         },
         command: () => `show epon optical-transceiver-diagnosis interface epon 0/${portNumber}`,
         analyzer: (data) => {
-            let input = data.replace(/\r\n/g, "");
+            let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
             const regex = /(epon(\d)\/(\d):(\d{0,3})\s+(-?\d{1,2}.\d))/gm;
             const onuInfo: IBdcomXponOptTrDiagInt[] = [];
             let match

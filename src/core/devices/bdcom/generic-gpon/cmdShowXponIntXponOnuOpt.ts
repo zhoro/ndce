@@ -13,7 +13,7 @@ export const cmdShowXponIntXponOnuOpt = (boardNumber: number = 0, portNumber: nu
         ...defaultCmdParams,
         command: () => `show gpon int gpon${boardNumber}/${portNumber}:${interfaceNumber} onu optical-transceiver-diagnosis`,
         analyzer: (data) => {
-            let input = data.replace(/\r\n/g, "");
+            let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
             const regex = /(-?\d+\.\d+)/gm;
             const onuInfo: any[] = [];
             let match

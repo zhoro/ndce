@@ -13,7 +13,7 @@ export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum
             return `sh mac address-table interface ${intType} ${boardNum}/${portNum}`
         },
         analyzer: (data) => {
-            let input = data.replace(/\r\n/g, " ");
+            let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
             const regex = /((\d+)\s+(\S+[.-]\S+[.-]\S+)\s+(\S+)\s+(((tg|g)(\d+)\/(\d+))|((epon|gpon)(\d+)\/(\d+):(\d+))))/gm;
             const macInfo: any[] = [];
             let match

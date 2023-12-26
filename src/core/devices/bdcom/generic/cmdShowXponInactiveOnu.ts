@@ -8,7 +8,7 @@ export const cmdShowXponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
         return "show epon inactive-onu"
     },
     analyzer: (data) => {
-        let input = data.replace(/\r\n/g, "");
+        let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
         const regex = /(EPON(\d)\/(\d):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s+(\d+)(\s+)?(\.)(\d{2}:\d{2}:\d{2}))/gm
         const deregisteredONUs: any[] = [];
         let match
