@@ -12,7 +12,7 @@ export type TelnetConnectionParams = {
     sendTimeout: number;
     username?: string;
     password?: string;
-    terminalWidth: 132;
+    terminalWidth: number;
     pageSeparator?: string;
 }
 
@@ -70,8 +70,8 @@ export class TelnetConnection implements IDeviceConnection {
             sendTimeout: 2000,
             username: '',
             password: '',
-            terminalWidth: 132,
-            pageSeparator: deviceConfiguration.messagePageSeparator
+            terminalWidth: 120,
+            pageSeparator: deviceConfiguration.messagePageSeparator,
         };
     }
 
