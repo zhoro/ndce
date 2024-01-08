@@ -1,6 +1,6 @@
 {
   "name": "@zhoro/ndce",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A command executor for network devices that captures and stores output in a database for subsequent analysis",
   "author": {
     "name": "Andy Zhovtiak",
@@ -28,7 +28,7 @@
     "@types/chai": "^4.3.11",
     "@types/debug": "^4.1.12",
     "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.5",
+    "@types/node": "^20.10.7",
     "chai": "^4.3.10",
     "copyfiles": "^2.4.1",
     "dotenv-cli": "^7.3.0",

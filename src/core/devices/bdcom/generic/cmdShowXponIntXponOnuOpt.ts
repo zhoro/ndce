@@ -14,7 +14,7 @@ export const cmdShowXponIntXponOnuOpt = (boardNumber: number = 0, portNumber: nu
         command: () => `show epon int epon${boardNumber}/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`,
         analyzer: (data) => {
             let input = data.replace(/[\b\r\n]/g, "").replace(/(\s)\s*(\w)\s*(\s)/g, "$1$2");
-            const regex = /:\s(-?\d+.?\d+?)/gm;
+            const regex = /:\s(-?\d{0,}.?\d+?)/gm;
             const onuInfo: any[] = [];
             let match
             while ((match = regex.exec(input)) !== null) {

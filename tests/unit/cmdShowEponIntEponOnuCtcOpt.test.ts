@@ -14,14 +14,14 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
 
             // Mock data to simulate the response from the device
             const mockData =
-                ' operating temperature(degree): 35\n' +
+                ' operating temperature(degree): 3\n' +
                 ' supply voltage(V): 3.4\n' +
                 ' bias current(mA): 14.4\n' +
                 ' transmitted power(DBm): 2.2\n' +
                 ' received power(DBm): -17.7';
 
             const expectedOutput = {
-                opTemperature: '35',
+                opTemperature: '3',
                 opVoltage: '3.4',
                 opBiasCurrent: '14.4',
                 opTxPower: '2.2',
