@@ -3,11 +3,11 @@ import {IBdcomOnuInterfaceXponOpticalDetails} from "./interfaces/IBdcomOnuInterf
 import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
 /***
-    * @description Show epon int epon<boardNumber>/<portNumber>:<interfaceNumber> onu ctc optical-transceiver-diagnosis
-    * @param boardNumber default value is 0
-    * @param portNumber
-    * @param interfaceNumber
-    */
+ * @description Show epon int epon<boardNumber>/<portNumber>:<interfaceNumber> onu ctc optical-transceiver-diagnosis
+ * @param boardNumber default value is 0
+ * @param portNumber
+ * @param interfaceNumber
+ */
 export const cmdShowXponIntXponOnuOpt = (boardNumber: number = 0, portNumber: number, interfaceNumber: number): IDeviceCommand<IBdcomOnuInterfaceXponOpticalDetails> => {
     return {
         ...defaultCmdParams,

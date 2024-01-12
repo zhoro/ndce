@@ -59,7 +59,7 @@ export const generic_gpon: { configuration: IDeviceConfiguration & IOltConfigura
         cmdShowCpu: cmdShowCpu,
         cmdEnable: cmdEnable,
         cmdShowXponOnuInfo: cmdShowXponOnuInfo,
-        cmdShowXponIntEponOnuCtcOpt: cmdShowXponIntXponOnuOpt,
+        cmdShowXponIntOnuCtcOpt: cmdShowXponIntXponOnuOpt,
         cmdShowXponInactiveOnu: cmdShowXponInactiveOnu,
         cmdShowXponOptTrDiagInt: cmdShowXponOptTrDiagInt,
         cmdShowMacAddTableDynamic: cmdShowMacAddTableDynamic,

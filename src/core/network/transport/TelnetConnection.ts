@@ -154,16 +154,36 @@ export class TelnetConnection implements IDeviceConnection {
      * Execute command
      * @param command command to execute
      * @param params command parameters
+     * @param retryCount number of retries. Optional, default 3
      */
-    async execute(command: string, params: IDeviceCommandParams) {
-        this.debug('TelnetConnection.execute: ' + command);
-        if (!this.isConnected) return Promise.reject();
-        let result = await this.telnet.send(command, {sendTimeout: params.sendTimeout});
-        while (result.includes(this.deviceConfiguration.messagePageSeparator)) {
-            result = result.replace(new RegExp(this.deviceConfiguration.messagePageSeparator, 'g'), '');
-            result += await this.telnet.send(' ');
+    async execute(command: string, params: IDeviceCommandParams, retryCount: number = 3) {
+        this.debug(`TelnetConnection.execute: ${command}. Timeout: ${params.sendTimeout}`);
+        for (let i = 0; i < retryCount; i++) {
+            try {
+                if (!this.isConnected) {
+                    this.debug('TelnetConnection.execute: not connected, trying to reconnect');
+                    await this.connect();
+                    if (!this.isConnected) {
+                        this.debug('TelnetConnection.execute: reconnection failed');
+                        return Promise.reject('Reconnection failed');
+                    }
+                }
+                let result = await this.telnet.send(command, {timeout: params.sendTimeout});
+                while (result.includes(this.deviceConfiguration.messagePageSeparator)) {
+                    result = result.replace(new RegExp(this.deviceConfiguration.messagePageSeparator, 'g'), '');
+                    result += await this.telnet.send(' ');
+                }
+                return result;
+            } catch (error) {
+                this.debug(`TelnetConnection.execute: command execution failed. Error ${error}! Attempt ${i + 1}`);
+                if (i < retryCount - 1) {
+                    this.debug('TelnetConnection.execute: retrying');
+                } else {
+                    this.debug('TelnetConnection.execute: all attempts failed');
+                    throw error;
+                }
+            }
         }
-        return result;
     }
 
     onError(error: Error) {
@@ -172,8 +192,7 @@ export class TelnetConnection implements IDeviceConnection {
     }
 
     onTimeout() {
-        this.debug('TelnetConnection.onTimeout: connection terminated by timeout');
-        this.telnet.end();
+        this.debug(`TelnetConnection.onTimeout: Host ${this.params.host} socket timeout. (This is only to notify that the socket has been idle)`);
     }
 
     onLoginFailed() {

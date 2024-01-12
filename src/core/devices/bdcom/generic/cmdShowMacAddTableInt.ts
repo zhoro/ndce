@@ -1,11 +1,10 @@
 import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
 import {IBdcomMacAddTable} from "./interfaces/IBdcomMacAddTable";
+import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
 
 export const cmdShowMacAddTableInt = (intType: string, boardNum: string, portNum: string, intNum?: string): IDeviceCommand<IBdcomMacAddTable> => {
     return {
-        cmdParams: {
-            sendTimeout: 1500
-        },
+        ...defaultCmdParams,
         command: () => {
             if (intType.includes('pon') && intNum != undefined) {
                 return `sh mac address-table interface ${intType} ${boardNum}/${portNum}:${intNum}`

@@ -42,7 +42,7 @@ export class NetworkDevice {
             port: managementAccess.host.port,
             shellPrompt: '',
             timeout: 5000,
-            sendTimeout: 2000,
+            sendTimeout: 1000,
             terminalWidth: 132,
             pageSeparator: device.configuration.messagePageSeparator
         })
