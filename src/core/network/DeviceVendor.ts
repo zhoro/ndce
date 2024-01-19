@@ -1,4 +1,3 @@
 export class DeviceVendor {
-    constructor(public name: string) {
-    }
+    constructor(public name: string) {}
 }

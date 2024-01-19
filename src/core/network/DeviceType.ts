@@ -1,1 +1,1 @@
-export type DeviceType = 'olt' | 'switch'
+export type DeviceType = 'olt' | 'switch';

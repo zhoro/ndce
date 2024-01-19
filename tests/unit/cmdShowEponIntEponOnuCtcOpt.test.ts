@@ -1,4 +1,4 @@
-import {cmdShowXponIntXponOnuOpt} from '../../src/core/devices/bdcom/generic/cmdShowXponIntXponOnuOpt'
+import {cmdShowXponIntXponOnuOpt} from '../../src/core/devices/bdcom/generic/cmdShowXponIntXponOnuOpt';
 
 describe('cmdShowEponIntEponOnuCtcOpt', () => {
     describe('analyzer', () => {
@@ -10,7 +10,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                 boardNumber,
                 portNumber,
                 interfaceNumber
-            )
+            );
 
             // Mock data to simulate the response from the device
             const mockData =
@@ -28,24 +28,24 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                 opRxPower: '-17.7',
             };
 
-            expect(result.analyzer(mockData)).toEqual(expectedOutput)
+            expect(result.analyzer(mockData)).toEqual(expectedOutput);
         });
     });
 
     describe('command', () => {
         it('should return the correct command string', () => {
-            const boardNumber = 0
-            const portNumber = 1
-            const interfaceNumber = 53
+            const boardNumber = 0;
+            const portNumber = 1;
+            const interfaceNumber = 53;
 
             const result = cmdShowXponIntXponOnuOpt(
                 boardNumber,
                 portNumber,
                 interfaceNumber
-            )
+            );
 
-            const expectedCommand = `show epon int epon${boardNumber}/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`
-            expect(result.command()).toEqual(expectedCommand)
+            const expectedCommand = `show epon int epon${boardNumber}/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`;
+            expect(result.command()).toEqual(expectedCommand);
         });
     });
 
@@ -57,11 +57,11 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                 undefined,
                 portNumber,
                 interfaceNumber
-            )
+            );
 
-            const expectedCommand = `show epon int epon0/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`
+            const expectedCommand = `show epon int epon0/${portNumber}:${interfaceNumber} onu ctc optical-transceiver-diagnosis`;
 
-            expect(result.command()).toEqual(expectedCommand)
+            expect(result.command()).toEqual(expectedCommand);
         });
     });
 
@@ -78,7 +78,7 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                 );
 
                 // Mock data to simulate an empty response from the device
-                const mockData = ''
+                const mockData = '';
 
                 const expectedOutput = {
                     opTemperature: '',
@@ -86,10 +86,10 @@ describe('cmdShowEponIntEponOnuCtcOpt', () => {
                     opBiasCurrent: '',
                     opTxPower: '',
                     opRxPower: '',
-                }
+                };
 
-                expect(result.analyzer(mockData)).toEqual(expectedOutput)
+                expect(result.analyzer(mockData)).toEqual(expectedOutput);
             });
         });
     });
-})
+});

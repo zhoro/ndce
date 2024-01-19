@@ -1,4 +1,7 @@
-import {BDCOM} from './bdcom'
+import {BDCOM} from './bdcom';
+import {GENERIC_DEVICE} from './generic_device';
+
 export const networkDevices = {
-    BDCOM
-}
+    GENERIC_DEVICE,
+    BDCOM,
+};

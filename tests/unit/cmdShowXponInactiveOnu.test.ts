@@ -8,7 +8,8 @@ describe('cmdShowXponInactiveOnu', () => {
     });
 
     it('should correctly analyze the data', () => {
-        const mockData = 'GPON0/1:126    FHTT:6A89B080    N/A                      off-line      2023-11-29 12:37:03 Los';
+        const mockData =
+            'GPON0/1:126    FHTT:6A89B080    N/A                      off-line      2023-11-29 12:37:03 Los';
         const result = cmdShowXponInactiveOnu.analyzer(mockData);
         expect(result).to.deep.equal([
             {
@@ -26,7 +27,7 @@ describe('cmdShowXponInactiveOnu', () => {
                 lastDeregTime: '12:37:03',
                 lastDeregReason: 'Los',
                 absentDays: '',
-                absentTime: ''
+                absentTime: '',
             },
         ]);
     });
@@ -43,7 +44,8 @@ describe('cmdShowXponInactiveOnu', () => {
     });
 
     it('should correctly parse multiple lines of data', () => {
-        const data = 'GPON1/2:3 ABCD ABCD ABCD ABCD ABCD ABCD ABCD\nGPON4/5:6 EFGH EFGH EFGH EFGH EFGH EFGH EFGH';
+        const data =
+            'GPON1/2:3 ABCD ABCD ABCD ABCD ABCD ABCD ABCD\nGPON4/5:6 EFGH EFGH EFGH EFGH EFGH EFGH EFGH';
         const result = cmdShowXponInactiveOnu.analyzer(data);
         expect(result).to.be.an('array').that.has.lengthOf(2);
         expect(result[1]).to.have.property('xponType', 'gpon');

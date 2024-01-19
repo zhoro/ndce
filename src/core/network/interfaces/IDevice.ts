@@ -1,4 +1,4 @@
-import {IDeviceConfiguration} from "./IDeviceConfiguration";
+import {IDeviceConfiguration} from './IDeviceConfiguration';
 
 export interface IDevice {
     configuration: IDeviceConfiguration;

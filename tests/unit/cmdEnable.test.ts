@@ -1,4 +1,4 @@
-import { cmdEnable } from '../../src/core/devices/bdcom/generic/cmdEnable';
+import {cmdEnable} from '../../src/core/devices/bdcom/generic/cmdEnable';
 
 describe('cmdEnable', () => {
     describe('command', () => {

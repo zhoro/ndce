@@ -1,1 +1,1 @@
-export type PonType = "epon" | "gpon";
+export type PonType = 'epon' | 'gpon';

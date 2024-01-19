@@ -1,5 +1,5 @@
-import {OltType} from "../OltType";
+import {OltType} from '../OltType';
 
 export interface IOltConfiguration {
-    ponType: OltType
+    ponType: OltType;
 }

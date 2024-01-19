@@ -1,11 +1,11 @@
-import {PrismaClient, StatOnuDevice} from "../generated/prisma-client";
-import Debug from "debug";
-import {DeviceHost} from "../core/network/DeviceHost";
-import {DeviceAccessType} from "../core/network/DeviceAccessType";
-import {NetworkDevice} from "../core/network/NetworkDevice";
-import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
-import {networkDevices} from "../core/devices";
-import {getNetworkDevices} from "../core/utils/getNetworkDevices";
+import {PrismaClient, StatOnuDevice} from '../generated/prisma-client';
+import Debug from 'debug';
+import {DeviceHost} from '../core/network/DeviceHost';
+import {DeviceAccessType} from '../core/network/DeviceAccessType';
+import {NetworkDevice} from '../core/network/NetworkDevice';
+import {DeviceManagementAccess} from '../core/network/DeviceManagementAccess';
+import {networkDevices} from '../core/devices';
+import {getNetworkDevices} from '../core/utils/getNetworkDevices';
 
 /***
  * Show epon onu info interface command for network devices
@@ -13,8 +13,11 @@ import {getNetworkDevices} from "../core/utils/getNetworkDevices";
  * @param boardNumber optional board number, default value is Infinity for board #0 from configuration
  * @param portNumber optional port number, default value is 0 for all ports on board
  */
-export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0, boardNumber = Infinity, portNumber = 0) {
-
+export async function exCmdShowEponOnuInfoInterface(
+    networkDeviceId: number = 0,
+    boardNumber = Infinity,
+    portNumber = 0
+) {
     const prisma = new PrismaClient();
     const debug = Debug('ndce:exShEponOnuInfoInterface');
     Debug.enable(process.env.DEBUG || 'false');
@@ -22,37 +25,61 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
     try {
         const networkDevs = await getNetworkDevices(prisma, networkDeviceId);
         if (networkDevs.length === 0) {
-            debug(`no network devices found with id: ${networkDeviceId}. Exiting...`);
-            return
+            debug(
+                `no network devices found with id: ${networkDeviceId}. Exiting...`
+            );
+            return;
         }
         for (const networkDevice of networkDevs) {
             if (networkDevice.deviceModel.deviceType.type !== 'olt') {
                 debug('device type is not OLT, skipping');
-                continue
+                continue;
             }
 
-            const devConf = networkDevices[`${networkDevice.deviceModel.vendor.name}`][`${networkDevice.deviceModel.name}`];
+            const devConf =
+                networkDevices[`${networkDevice.deviceModel.vendor.name}`][
+                    `${networkDevice.deviceModel.name}`
+                ];
             if (devConf === undefined) {
-                debug(`device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`);
-                continue
+                debug(
+                    `device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`
+                );
+                continue;
             }
 
             if (boardNumber === Infinity) {
                 boardNumber = devConf.configuration.boards[0];
             }
             if (!devConf.configuration.boards.includes(boardNumber)) {
-                debug(`board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`);
-                continue
+                debug(
+                    `board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`
+                );
+                continue;
             }
 
             const transport = networkDevice.accessType as DeviceAccessType;
-            const host = new DeviceHost(networkDevice.accessIpAddressV4, Number(networkDevice.accessPort));
+            const host = new DeviceHost(
+                networkDevice.accessIpAddressV4,
+                Number(networkDevice.accessPort)
+            );
             const credentials = networkDevice.deviceCredential;
-            const device = new NetworkDevice(devConf, new DeviceManagementAccess(host, credentials));
+            const device = new NetworkDevice(
+                devConf,
+                new DeviceManagementAccess(host, credentials)
+            );
 
-            debug('vendor: ' + JSON.stringify(networkDevice.deviceModel.vendor.name));
-            debug('device model: ' + JSON.stringify(networkDevice.deviceModel.name));
-            debug('networkDevice: ' + JSON.stringify(networkDevice.deviceModel.deviceType.type));
+            debug(
+                'vendor: ' +
+                    JSON.stringify(networkDevice.deviceModel.vendor.name)
+            );
+            debug(
+                'device model: ' +
+                    JSON.stringify(networkDevice.deviceModel.name)
+            );
+            debug(
+                'networkDevice: ' +
+                    JSON.stringify(networkDevice.deviceModel.deviceType.type)
+            );
             debug('transport: ' + JSON.stringify(transport));
             debug('host: ' + JSON.stringify(host));
             debug('devConf: ' + JSON.stringify(devConf));
@@ -63,9 +90,15 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
             }
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
-                for (let port = 1; port <= devConf.configuration.portsCount.PON; port++) {
-                    if (portNumber > 0 && portNumber !== port) continue
-                    const epoOnuInfo: StatOnuDevice[] = await device.execute(devConf.commands.cmdShowXponOnuInfo(boardNumber, port));
+                for (
+                    let port = 1;
+                    port <= devConf.configuration.portsCount.PON;
+                    port++
+                ) {
+                    if (portNumber > 0 && portNumber !== port) continue;
+                    const epoOnuInfo: StatOnuDevice[] = await device.execute(
+                        devConf.commands.cmdShowXponOnuInfo(boardNumber, port)
+                    );
                     for (const onu of epoOnuInfo) {
                         try {
                             const data: StatOnuDevice = {...onu};
@@ -77,7 +110,6 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
                             console.error('exShEponOnuInfoInterface: ' + e);
                         }
                     }
-
                 }
             }
             await device.disconnect();
@@ -88,4 +120,3 @@ export async function exCmdShowEponOnuInfoInterface(networkDeviceId: number = 0,
         await prisma.$disconnect();
     }
 }
-

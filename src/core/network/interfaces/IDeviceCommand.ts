@@ -1,4 +1,4 @@
-import {IDeviceCommandParams} from "./IDeviceCommandParams";
+import {IDeviceCommandParams} from './IDeviceCommandParams';
 
 export interface IDeviceCommand<T> {
     cmdParams: IDeviceCommandParams;

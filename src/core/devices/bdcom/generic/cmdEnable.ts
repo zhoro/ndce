@@ -1,12 +1,12 @@
-import {IDeviceCommand} from "../../../network/interfaces/IDeviceCommand";
-import {defaultCmdParams} from "../../../network/DeviceDefaultCmdParams";
+import {IDeviceCommand} from '../../../network/interfaces/IDeviceCommand';
+import {defaultCmdParams} from '../../../network/DeviceDefaultCmdParams';
 
 export const cmdEnable: IDeviceCommand<boolean> = {
     ...defaultCmdParams,
     command: () => {
-        return "enable"
+        return 'enable';
     },
     analyzer: () => {
-        return true
-    }
-}
+        return true;
+    },
+};

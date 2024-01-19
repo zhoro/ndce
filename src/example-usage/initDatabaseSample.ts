@@ -1,6 +1,6 @@
 import {PrismaClient} from '../generated/prisma-client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const vendorName = 'BDCOM';
 const deviceTypeValue = 'olt';
@@ -12,8 +12,8 @@ async function main() {
     let vendor;
     vendor = await prisma.deviceVendor.findUnique({
         where: {
-            name: vendorName
-        }
+            name: vendorName,
+        },
     });
 
     //add DeviceVendor
@@ -21,25 +21,24 @@ async function main() {
         try {
             const createVendor = await prisma.deviceVendor.create({
                 data: {
-                    name: vendorName
-                }
-            })
+                    name: vendorName,
+                },
+            });
             console.log('DeviceVendor created');
             vendor = createVendor;
         } catch (e) {
             throw new Error('Error creating DeviceVendor');
         }
-
     } else {
         console.log('DeviceVendor already exists. Skipping...');
     }
 
     //search DeviceType
-    let deviceType
+    let deviceType;
     deviceType = await prisma.deviceType.findUnique({
         where: {
-            type: deviceTypeValue
-        }
+            type: deviceTypeValue,
+        },
     });
 
     //add DeviceType
@@ -47,27 +46,26 @@ async function main() {
         try {
             const createDeviceType = await prisma.deviceType.create({
                 data: {
-                    type: deviceTypeValue
-                }
+                    type: deviceTypeValue,
+                },
             });
             console.log('DeviceType created');
             deviceType = createDeviceType;
         } catch (e) {
             throw new Error('Error creating DeviceType');
         }
-
     } else {
         console.log('DeviceType already exists. Skipping...');
     }
 
     //search DeviceModel
-    let deviceModel
+    let deviceModel;
     deviceModel = await prisma.deviceModel.findUnique({
         where: {
             name: deviceModelValue,
             vendorId: vendor.id,
-            deviceTypeId: deviceType.id
-        }
+            deviceTypeId: deviceType.id,
+        },
     });
 
     if (!deviceModel) {
@@ -77,15 +75,15 @@ async function main() {
                     name: deviceModelValue,
                     vendor: {
                         connect: {
-                            id: vendor.id
-                        }
+                            id: vendor.id,
+                        },
                     },
                     deviceType: {
                         connect: {
-                            id: deviceType.id
-                        }
-                    }
-                }
+                            id: deviceType.id,
+                        },
+                    },
+                },
             });
             console.log('DeviceModel created');
             deviceModel = createDeviceModel;
@@ -97,24 +95,26 @@ async function main() {
     }
 
     //search DeviceCredential
-    const username = process.env.CLIENT_USERNAME || "admin";
-    const password = process.env.CLIENT_PASSWORD || "admin";
+    const username = process.env.CLIENT_USERNAME || 'admin';
+    const password = process.env.CLIENT_PASSWORD || 'admin';
     let deviceCredential;
     deviceCredential = await prisma.deviceCredential.findUnique({
         where: {
-            id: 1
-        }
+            id: 1,
+        },
     });
 
     //add DeviceCredential
     if (!deviceCredential) {
         try {
-            const createDeviceCredential = await prisma.deviceCredential.create({
-                data: {
-                    username: username,
-                    password: password
+            const createDeviceCredential = await prisma.deviceCredential.create(
+                {
+                    data: {
+                        username: username,
+                        password: password,
+                    },
                 }
-            });
+            );
             console.log('DeviceCredential created');
             deviceCredential = createDeviceCredential;
         } catch (e) {
@@ -129,7 +129,7 @@ async function main() {
     networkDevice = await prisma.networkDevice.findUnique({
         where: {
             accessIpAddressV4: deviceIpAddressV4,
-        }
+        },
     });
     //add NetworkDevice
     if (!networkDevice) {
@@ -138,18 +138,18 @@ async function main() {
                 data: {
                     deviceModel: {
                         connect: {
-                            id: deviceModel.id
-                        }
+                            id: deviceModel.id,
+                        },
                     },
                     accessIpAddressV4: deviceIpAddressV4,
                     accessPort: '23',
                     accessType: 'telnet',
                     deviceCredential: {
                         connect: {
-                            id: deviceCredential.id
-                        }
-                    }
-                }
+                            id: deviceCredential.id,
+                        },
+                    },
+                },
             });
             console.log('NetworkDevice created');
         } catch (e) {
@@ -160,10 +160,11 @@ async function main() {
     }
 }
 
-main().catch(e => {
-    console.error(e);
-}).finally(() => {
-    prisma.$disconnect();
-    process.exit(0);
-});
-
+main()
+    .catch((e) => {
+        console.error(e);
+    })
+    .finally(() => {
+        prisma.$disconnect();
+        process.exit(0);
+    });

@@ -1,8 +1,8 @@
 import Debug from 'debug';
-import {IDeviceConnection} from "../interfaces/IDeviceConnection";
-import {Telnet} from "telnet-client";
-import {IDeviceConfiguration} from "../interfaces/IDeviceConfiguration";
-import {IDeviceCommandParams} from "../interfaces/IDeviceCommandParams";
+import {IDeviceConnection} from '../interfaces/IDeviceConnection';
+import {Telnet} from 'telnet-client';
+import {IDeviceConfiguration} from '../interfaces/IDeviceConfiguration';
+import {IDeviceCommandParams} from '../interfaces/IDeviceCommandParams';
 
 export type TelnetConnectionParams = {
     host: string;
@@ -14,7 +14,7 @@ export type TelnetConnectionParams = {
     password?: string;
     terminalWidth: number;
     pageSeparator?: string;
-}
+};
 
 /***
  * Telnet connection
@@ -31,7 +31,7 @@ export class TelnetConnection implements IDeviceConnection {
 
     private set isConnected(value: boolean) {
         this._isConnected = value;
-        this.debug('TelnetConnection.isConnected: ' + value)
+        this.debug('TelnetConnection.isConnected: ' + value);
     }
 
     private _isLogged: boolean = false;
@@ -41,7 +41,7 @@ export class TelnetConnection implements IDeviceConnection {
 
     private set isLogged(value: boolean) {
         this._isLogged = value;
-        this.debug('TelnetConnection.isLogged: ' + value)
+        this.debug('TelnetConnection.isLogged: ' + value);
     }
 
     private _isInitialized: boolean = false;
@@ -51,8 +51,8 @@ export class TelnetConnection implements IDeviceConnection {
 
     private set isInitialized(value: boolean) {
         this._isInitialized = value;
-        this.debug('TelnetConnection.isInitialized: ' + value)
-        this.debug('TelnetConnection.params: ' + JSON.stringify(this.params))
+        this.debug('TelnetConnection.isInitialized: ' + value);
+        this.debug('TelnetConnection.params: ' + JSON.stringify(this.params));
     }
 
     constructor(private deviceConfiguration: IDeviceConfiguration) {
@@ -78,12 +78,15 @@ export class TelnetConnection implements IDeviceConnection {
     async login(messageAuthFailed?: string, messageLoginPrompt?: string) {
         this.debug('TelnetConnection.login');
         if (!this.isConnected) {
-            throw new Error("Not connected");
+            throw new Error('Not connected');
         }
         await this.telnet.send(this.params.username);
         const result = await this.telnet.send(this.params.password);
-        if (result.includes(messageAuthFailed) || result.includes(messageLoginPrompt)) {
-            await Promise.reject(messageAuthFailed)
+        if (
+            result.includes(messageAuthFailed) ||
+            result.includes(messageLoginPrompt)
+        ) {
+            await Promise.reject(messageAuthFailed);
             this.isLogged = false;
         } else {
             this.isLogged = true;
@@ -91,7 +94,7 @@ export class TelnetConnection implements IDeviceConnection {
     }
 
     async logout() {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
 
     /***
@@ -156,26 +159,52 @@ export class TelnetConnection implements IDeviceConnection {
      * @param params command parameters
      * @param retryCount number of retries. Optional, default 3
      */
-    async execute(command: string, params: IDeviceCommandParams, retryCount: number = 3) {
-        this.debug(`TelnetConnection.execute: ${command}. Timeout: ${params.sendTimeout}`);
+    async execute(
+        command: string,
+        params: IDeviceCommandParams,
+        retryCount: number = 3
+    ) {
+        this.debug(
+            `TelnetConnection.execute: ${command}. Timeout: ${params.sendTimeout}`
+        );
         for (let i = 0; i < retryCount; i++) {
             try {
                 if (!this.isConnected) {
-                    this.debug('TelnetConnection.execute: not connected, trying to reconnect');
+                    this.debug(
+                        'TelnetConnection.execute: not connected, trying to reconnect'
+                    );
                     await this.connect();
                     if (!this.isConnected) {
-                        this.debug('TelnetConnection.execute: reconnection failed');
+                        this.debug(
+                            'TelnetConnection.execute: reconnection failed'
+                        );
                         return Promise.reject('Reconnection failed');
                     }
                 }
-                let result = await this.telnet.send(command, {timeout: params.sendTimeout});
-                while (result.includes(this.deviceConfiguration.messagePageSeparator)) {
-                    result = result.replace(new RegExp(this.deviceConfiguration.messagePageSeparator, 'g'), '');
+                let result = await this.telnet.send(command, {
+                    timeout: params.sendTimeout,
+                });
+                while (
+                    result.includes(
+                        this.deviceConfiguration.messagePageSeparator
+                    )
+                ) {
+                    result = result.replace(
+                        new RegExp(
+                            this.deviceConfiguration.messagePageSeparator,
+                            'g'
+                        ),
+                        ''
+                    );
                     result += await this.telnet.send(' ');
                 }
                 return result;
             } catch (error) {
-                this.debug(`TelnetConnection.execute: command execution failed. Error ${error}! Attempt ${i + 1}`);
+                this.debug(
+                    `TelnetConnection.execute: command execution failed. Error ${error}! Attempt ${
+                        i + 1
+                    }`
+                );
                 if (i < retryCount - 1) {
                     this.debug('TelnetConnection.execute: retrying');
                 } else {
@@ -192,7 +221,9 @@ export class TelnetConnection implements IDeviceConnection {
     }
 
     onTimeout() {
-        this.debug(`TelnetConnection.onTimeout: Host ${this.params.host} socket timeout. (This is only to notify that the socket has been idle)`);
+        this.debug(
+            `TelnetConnection.onTimeout: Host ${this.params.host} socket timeout. (This is only to notify that the socket has been idle)`
+        );
     }
 
     onLoginFailed() {

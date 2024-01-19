@@ -1,9 +1,9 @@
-import * as dotenv from "dotenv";
-import Debug from "debug";
-import {exCmdShowEponOnuInfoInterface} from "./exShEponOnuInfoInterface";
-import {exCmdShowEponIntEponOnuCtcOpt} from "./exShEponIntEponOnuCtcOpt";
-import {exCmdShEponInactiveOnu} from "./exShEponInactiveOnu";
-import {exCmdShowXponIntOnuOpt} from "./exShXponIntOnuOpt";
+import * as dotenv from 'dotenv';
+import Debug from 'debug';
+import {exCmdShowEponOnuInfoInterface} from './exShEponOnuInfoInterface';
+import {exCmdShowEponIntEponOnuCtcOpt} from './exShEponIntEponOnuCtcOpt';
+import {exCmdShEponInactiveOnu} from './exShEponInactiveOnu';
+import {exCmdShowXponIntOnuOpt} from './exShXponIntOnuOpt';
 
 dotenv.config();
 const debug = Debug('ndce:exCron');
@@ -18,8 +18,10 @@ async function run() {
 }
 
 debug('start');
-run().catch(e => {
-    console.error(e);
-}).finally(() => {
-    debug('end');
-});
+run()
+    .catch((e) => {
+        console.error(e);
+    })
+    .finally(() => {
+        debug('end');
+    });

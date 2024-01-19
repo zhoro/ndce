@@ -1,7 +1,7 @@
-import {PonType} from "./IBdcomPonType";
+import {PonType} from './IBdcomPonType';
 
 export interface IBdcomOnuDevice {
-    xponType: PonType
+    xponType: PonType;
     xponBoard: number;
     xponPort: number;
     xponInterface: number;

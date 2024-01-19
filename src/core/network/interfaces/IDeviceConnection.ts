@@ -1,4 +1,4 @@
-import {IDeviceCommandParams} from "./IDeviceCommandParams";
+import {IDeviceCommandParams} from './IDeviceCommandParams';
 
 export interface IDeviceConnection {
     connect(): Promise<void>;
@@ -11,9 +11,9 @@ export interface IDeviceConnection {
 
     get isConnected(): boolean;
 
-    get isLogged(): boolean
+    get isLogged(): boolean;
 
-    login(messageAuthFailed: string, messageLoginPrompt:string): Promise<void>;
+    login(messageAuthFailed: string, messageLoginPrompt: string): Promise<void>;
 
     logout(): Promise<void>;
 }

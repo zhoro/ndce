@@ -1,11 +1,11 @@
-import Debug from "debug";
-import {PrismaClient} from "../generated/prisma-client";
-import {getNetworkDevices} from "../core/utils/getNetworkDevices";
-import {networkDevices} from "../core/devices";
-import {DeviceAccessType} from "../core/network/DeviceAccessType";
-import {NetworkDevice} from "../core/network/NetworkDevice";
-import {DeviceManagementAccess} from "../core/network/DeviceManagementAccess";
-import {DeviceHost} from "../core/network/DeviceHost";
+import Debug from 'debug';
+import {PrismaClient} from '../generated/prisma-client';
+import {getNetworkDevices} from '../core/utils/getNetworkDevices';
+import {networkDevices} from '../core/devices';
+import {DeviceAccessType} from '../core/network/DeviceAccessType';
+import {NetworkDevice} from '../core/network/NetworkDevice';
+import {DeviceManagementAccess} from '../core/network/DeviceManagementAccess';
+import {DeviceHost} from '../core/network/DeviceHost';
 
 /***
  * Show epon interface epon onu ctc optical command for network devices
@@ -14,7 +14,12 @@ import {DeviceHost} from "../core/network/DeviceHost";
  * @param portNumber  port number
  * @param interfaceNumber ONT interface number
  */
-export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boardNumber: number = Infinity, portNumber: number, interfaceNumber: number) {
+export async function exCmdShowEponIntEponOnuCtcOpt(
+    networkDeviceId: number,
+    boardNumber: number = Infinity,
+    portNumber: number,
+    interfaceNumber: number
+) {
     const prisma = new PrismaClient();
     const debug = Debug('ndce:exShEponIntEponOnuCtcOpt');
     Debug.enable(process.env.DEBUG || 'false');
@@ -22,19 +27,26 @@ export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boa
     try {
         const networkDevs = await getNetworkDevices(prisma, networkDeviceId);
         if (networkDevs.length === 0) {
-            debug(`no network devices found with id: ${networkDeviceId}. Exiting...`);
-            return
+            debug(
+                `no network devices found with id: ${networkDeviceId}. Exiting...`
+            );
+            return;
         }
         for (const networkDevice of networkDevs) {
             if (networkDevice.deviceModel.deviceType.type !== 'olt') {
                 debug('device type is not OLT, skipping');
-                continue
+                continue;
             }
 
-            const devConf = networkDevices[`${networkDevice.deviceModel.vendor.name}`][`${networkDevice.deviceModel.name}`];
+            const devConf =
+                networkDevices[`${networkDevice.deviceModel.vendor.name}`][
+                    `${networkDevice.deviceModel.name}`
+                ];
             if (devConf === undefined) {
-                debug(`device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`);
-                continue
+                debug(
+                    `device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`
+                );
+                continue;
             }
 
             if (boardNumber === Infinity) {
@@ -42,18 +54,35 @@ export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boa
             }
 
             if (!devConf.configuration.boards.includes(boardNumber)) {
-                debug(`board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`);
-                continue
+                debug(
+                    `board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`
+                );
+                continue;
             }
 
             const transport = networkDevice.accessType as DeviceAccessType;
-            const host = new DeviceHost(networkDevice.accessIpAddressV4, Number(networkDevice.accessPort));
+            const host = new DeviceHost(
+                networkDevice.accessIpAddressV4,
+                Number(networkDevice.accessPort)
+            );
             const credentials = networkDevice.deviceCredential;
-            const device = new NetworkDevice(devConf, new DeviceManagementAccess(host, credentials));
+            const device = new NetworkDevice(
+                devConf,
+                new DeviceManagementAccess(host, credentials)
+            );
 
-            debug('vendor: ' + JSON.stringify(networkDevice.deviceModel.vendor.name));
-            debug('device model: ' + JSON.stringify(networkDevice.deviceModel.name));
-            debug('networkDevice: ' + JSON.stringify(networkDevice.deviceModel.deviceType.type));
+            debug(
+                'vendor: ' +
+                    JSON.stringify(networkDevice.deviceModel.vendor.name)
+            );
+            debug(
+                'device model: ' +
+                    JSON.stringify(networkDevice.deviceModel.name)
+            );
+            debug(
+                'networkDevice: ' +
+                    JSON.stringify(networkDevice.deviceModel.deviceType.type)
+            );
             debug('transport: ' + JSON.stringify(transport));
             debug('host: ' + JSON.stringify(host));
             debug('devConf: ' + JSON.stringify(devConf));
@@ -64,25 +93,33 @@ export async function exCmdShowEponIntEponOnuCtcOpt(networkDeviceId: number, boa
             }
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
-                const onuInfo = await device.execute(devConf.commands.cmdShowXponIntEponOnuCtcOpt(boardNumber, portNumber, interfaceNumber));
+                const onuInfo = await device.execute(
+                    devConf.commands.cmdShowXponIntEponOnuCtcOpt(
+                        boardNumber,
+                        portNumber,
+                        interfaceNumber
+                    )
+                );
                 debug('OnuOpticalSignal: ' + JSON.stringify(onuInfo));
                 if (onuInfo.opTxPower !== '' && onuInfo.opRxPower !== '') {
                     await prisma.statOnuOpticalSignal.create({
                         data: {
                             networkDevice: {
                                 connect: {
-                                    id: networkDevice.id
-                                }
+                                    id: networkDevice.id,
+                                },
                             },
                             xponBoard: boardNumber,
                             xponPort: portNumber,
                             xponInterface: interfaceNumber,
                             txPower: +onuInfo.opTxPower,
-                            rxPower: +onuInfo.opRxPower
-                        }
+                            rxPower: +onuInfo.opRxPower,
+                        },
                     });
                 } else {
-                    debug(`onuInfo.opTxPower and/or onuInfo.opRxPower is empty, skipping...`);
+                    debug(
+                        `onuInfo.opTxPower and/or onuInfo.opRxPower is empty, skipping...`
+                    );
                 }
             }
             await device.disconnect();

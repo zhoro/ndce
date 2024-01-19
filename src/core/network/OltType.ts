@@ -1,1 +1,1 @@
-export type OltType = 'epon' | 'gpon'
+export type OltType = 'epon' | 'gpon';
