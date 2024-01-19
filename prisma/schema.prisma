@@ -85,6 +85,10 @@ model StatOnuDevice {
   @@index([macAddressOnu])
   @@index([serialNumberOnu])
   @@index([status])
+  @@index([xponBoard])
+  @@index([xponPort])
+  @@index([xponInterface])
+  @@index([networkDeviceId])
 }
 
 model StatOnuOpticalSignal {
