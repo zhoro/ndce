@@ -12,6 +12,6 @@ export interface ISwitchInterfaceStatus {
     inRateCurrent: number;
     outRateCurrent: number;
     rxError: number;
-    boardNum:number;
-    portNum:number;
+    boardNum: number;
+    portNum: number;
 }

@@ -29,7 +29,7 @@ const portsCount = {
 };
 
 export const generic_switch: {
-    configuration: IDeviceConfiguration
+    configuration: IDeviceConfiguration;
     commands: any;
 } = {
     configuration: {

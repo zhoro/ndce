@@ -16,7 +16,7 @@ async function run() {
     await exCmdShowEponIntEponOnuCtcOpt(2, 0, 1, 1);
     await exCmdShEponInactiveOnu();
     await exCmdShowXponIntOnuOpt(0);
-    await exCmdShowInterfaceStatus(0)
+    await exCmdShowInterfaceStatus(0);
 }
 
 debug('start');

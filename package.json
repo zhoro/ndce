@@ -1,6 +1,6 @@
 {
   "name": "@zhoro/ndce",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A command executor for network devices that captures and stores output in a database for subsequent analysis",
   "author": {
     "name": "Andy Zhovtiak",

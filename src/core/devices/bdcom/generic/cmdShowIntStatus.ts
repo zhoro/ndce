@@ -14,14 +14,17 @@ export const cmdShowIntStatus = (
     portType: DevicePortsType,
     boardNumber: number = 0,
     portNumber: number,
-    interfaceNumber: number = 0,
+    interfaceNumber: number = 0
 ): IDeviceCommand<IBdcomInterfaceStatus> => {
     return {
         ...defaultCmdParams,
         command: () => {
             if (portType === DevicePortsType.PON && interfaceNumber === 0) {
                 return `show int epon${boardNumber}/${portNumber} `;
-            } else if (portType === DevicePortsType.PON && interfaceNumber > 0) {
+            } else if (
+                portType === DevicePortsType.PON &&
+                interfaceNumber > 0
+            ) {
                 return `show int epon${boardNumber}/${portNumber}:${interfaceNumber} `;
             } else if (portType === DevicePortsType.GE) {
                 return `show int gi${boardNumber}/${portNumber}`;
@@ -30,9 +33,9 @@ export const cmdShowIntStatus = (
             } else return ``;
         },
         analyzer: (data) => {
-            let input = data
-                .replace(/[\b\r\n]/g, '');
-            const regex = /(GigaEthernet|EPON|GPON|TGigaEthernet)(?<board>\d)\/(?<port>\d):?(?<interface>\d{0,3})?.*?is (administratively )?(?<ifStatus>\w+).*?is (?<ifProtocolStatus>\w+).*?(ription: (?<desc>\w+[-_\w]{0,}\w+).*?)?(ware is (?<hardware>\w+[-_\w]{0,}).*?)?(BW (?<bandwidth>\d+) kbit*?)(.*?(?<portspeed>\d+)Mb\/s.*?)?(.*?5 minutes input rate (?<fiveMinIn>\d+).*?)?(.*?5 minutes output rate (?<fiveMinOut>\d+).*?)?(.*?Real time input rate (\d+)%, (?<realIn>\d+).*?)?(.*?Real time output rate (\d+)%, (?<realOut>\d+).*?)?(.*?peak input rate (?<peakIn>\d+) bits\/sec.*?)?(.*?peak output rate (?<peakOut>\d+) bits\/sec.*?)?(.*?(?<rxError> \d+) error)?/gm;
+            let input = data.replace(/[\b\r\n]/g, '');
+            const regex =
+                /(GigaEthernet|EPON|GPON|TGigaEthernet)(?<board>\d)\/(?<port>\d):?(?<interface>\d{0,3})?.*?is (administratively )?(?<ifStatus>\w+).*?is (?<ifProtocolStatus>\w+).*?(ription: (?<desc>\w+[-_\w]{0,}\w+).*?)?(ware is (?<hardware>\w+[-_\w]{0,}).*?)?(BW (?<bandwidth>\d+) kbit*?)(.*?(?<portspeed>\d+)Mb\/s.*?)?(.*?5 minutes input rate (?<fiveMinIn>\d+).*?)?(.*?5 minutes output rate (?<fiveMinOut>\d+).*?)?(.*?Real time input rate (\d+)%, (?<realIn>\d+).*?)?(.*?Real time output rate (\d+)%, (?<realOut>\d+).*?)?(.*?peak input rate (?<peakIn>\d+) bits\/sec.*?)?(.*?peak output rate (?<peakOut>\d+) bits\/sec.*?)?(.*?(?<rxError> \d+) error)?/gm;
             const interfaceStatuses: any[] = [];
             let match;
             while ((match = regex.exec(input)) !== null) {

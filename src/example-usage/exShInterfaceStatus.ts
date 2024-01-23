@@ -13,7 +13,7 @@ import {IBdcomInterfaceStatus} from '../core/devices/bdcom/generic/interfaces/IB
 export async function exCmdShowInterfaceStatus(
     networkDeviceId: number = 0,
     boardNumber = Infinity,
-    portNumber = 0,
+    portNumber = 0
 ) {
     const prisma = new PrismaClient();
     const debug = Debug('ndce:exCmdShowInterfaceStatus');
@@ -23,7 +23,7 @@ export async function exCmdShowInterfaceStatus(
         const networkDevs = await getNetworkDevices(prisma, networkDeviceId);
         if (networkDevs.length === 0) {
             debug(
-                `no network devices found with id: ${networkDeviceId}. Exiting...`,
+                `no network devices found with id: ${networkDeviceId}. Exiting...`
             );
             return;
         }
@@ -36,42 +36,42 @@ export async function exCmdShowInterfaceStatus(
             const devConf =
                 networkDevices[`${networkDevice.deviceModel.vendor.name}`][
                     `${networkDevice.deviceModel.name}`
-                    ];
+                ];
             if (devConf === undefined) {
                 debug(
-                    `device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`,
+                    `device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`
                 );
                 return;
             }
             const boardNumber = devConf.configuration.boards[0];
             if (!devConf.configuration.boards.includes(boardNumber)) {
                 debug(
-                    `board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`,
+                    `board number: ${boardNumber} is not configured for: '${networkDevice.deviceModel.name}', skipping`
                 );
                 return;
             }
             const transport = networkDevice.accessType as DeviceAccessType;
             const host = new DeviceHost(
                 networkDevice.accessIpAddressV4,
-                Number(networkDevice.accessPort),
+                Number(networkDevice.accessPort)
             );
             const credentials = networkDevice.deviceCredential;
             const device = new NetworkDevice(
                 devConf,
-                new DeviceManagementAccess(host, credentials),
+                new DeviceManagementAccess(host, credentials)
             );
 
             debug(
                 'vendor: ' +
-                JSON.stringify(networkDevice.deviceModel.vendor.name),
+                    JSON.stringify(networkDevice.deviceModel.vendor.name)
             );
             debug(
                 'device model: ' +
-                JSON.stringify(networkDevice.deviceModel.name),
+                    JSON.stringify(networkDevice.deviceModel.name)
             );
             debug(
                 'networkDevice: ' +
-                JSON.stringify(networkDevice.deviceModel.deviceType.type),
+                    JSON.stringify(networkDevice.deviceModel.deviceType.type)
             );
             debug('transport: ' + JSON.stringify(transport));
             debug('host: ' + JSON.stringify(host));
@@ -87,12 +87,36 @@ export async function exCmdShowInterfaceStatus(
                 //get all PON interfaces for OLT
                 const interfaces = await getOnuInformation(
                     prisma,
-                    networkDevice.id,
+                    networkDevice.id
                 );
 
-                await handleInterfaceStatus(device, devConf, prisma, networkDevice.id, DevicePortsType.GE, boardNumber, devConf.configuration.portsCount.GE);
-                await handleInterfaceStatus(device, devConf, prisma, networkDevice.id, DevicePortsType.XGE, boardNumber, devConf.configuration.portsCount.XGE);
-                await handleInterfaceStatus(device, devConf, prisma, networkDevice.id, DevicePortsType.PON, boardNumber, devConf.configuration.portsCount.PON);
+                await handleInterfaceStatus(
+                    device,
+                    devConf,
+                    prisma,
+                    networkDevice.id,
+                    DevicePortsType.GE,
+                    boardNumber,
+                    devConf.configuration.portsCount.GE
+                );
+                await handleInterfaceStatus(
+                    device,
+                    devConf,
+                    prisma,
+                    networkDevice.id,
+                    DevicePortsType.XGE,
+                    boardNumber,
+                    devConf.configuration.portsCount.XGE
+                );
+                await handleInterfaceStatus(
+                    device,
+                    devConf,
+                    prisma,
+                    networkDevice.id,
+                    DevicePortsType.PON,
+                    boardNumber,
+                    devConf.configuration.portsCount.PON
+                );
 
                 //for every PON interface get interface status
                 for (const iface of interfaces) {
@@ -102,20 +126,24 @@ export async function exCmdShowInterfaceStatus(
                                 DevicePortsType.PON,
                                 iface.xponBoard,
                                 iface.xponPort,
-                                iface.xponInterface,
-                            ),
+                                iface.xponInterface
+                            )
                         );
-                        await saveDataToDb(prisma, networkDevice.id, interfaceStatus);
+                        await saveDataToDb(
+                            prisma,
+                            networkDevice.id,
+                            interfaceStatus
+                        );
                         // debug(` ${iface.xponBoard}/${iface.xponPort}:${iface.xponInterface} on ${networkDevice.description} device, interface status: ${JSON.stringify(interfaceStatus)}`);
                     } catch (e) {
                         debug(
-                            `Can't get interface status for ${iface.xponBoard}/${iface.xponPort}:${iface.xponInterface} on ${networkDevice.description} device, skipping...`,
+                            `Can't get interface status for ${iface.xponBoard}/${iface.xponPort}:${iface.xponInterface} on ${networkDevice.description} device, skipping...`
                         );
                     }
                 }
             } else {
                 debug(
-                    `Can't login into ${networkDevice.description} device, skipping...`,
+                    `Can't login into ${networkDevice.description} device, skipping...`
                 );
             }
             await device.disconnect();
@@ -136,7 +164,7 @@ export async function exCmdShowInterfaceStatus(
         portType: DevicePortsType,
         boardNumber: number,
         portCount: number,
-        interfaceNumber: number = 0,
+        interfaceNumber: number = 0
     ) {
         for (let i = 1; i <= portCount; i++) {
             try {
@@ -144,20 +172,24 @@ export async function exCmdShowInterfaceStatus(
                     portType,
                     boardNumber,
                     i,
-                    interfaceNumber,
+                    interfaceNumber
                 );
                 command.setTimeout(1000);
                 const interfaceStatus = await device.execute(command);
                 await saveDataToDb(prisma, networkDeviceId, interfaceStatus);
             } catch (e) {
                 debug(
-                    `Can't get interface status for ${boardNumber}/${i} on deviceId=${networkDeviceId}. Error ${e} skipping...`,
+                    `Can't get interface status for ${boardNumber}/${i} on deviceId=${networkDeviceId}. Error ${e} skipping...`
                 );
             }
         }
     }
 
-    async function saveDataToDb(prisma: PrismaClient, networkDeviceId: number, interfaceStatus: IBdcomInterfaceStatus) {
+    async function saveDataToDb(
+        prisma: PrismaClient,
+        networkDeviceId: number,
+        interfaceStatus: IBdcomInterfaceStatus
+    ) {
         await prisma.statInterfaces.create({
             data: {
                 networkDevice: {
@@ -184,5 +216,4 @@ export async function exCmdShowInterfaceStatus(
             },
         });
     }
-
 }
