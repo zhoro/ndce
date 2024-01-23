@@ -94,7 +94,7 @@ export async function exCmdShowEponIntEponOnuCtcOpt(
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
                 const onuInfo = await device.execute(
-                    devConf.commands.cmdShowXponIntEponOnuCtcOpt(
+                    devConf.commands.cmdShowXponIntOnuCtcOpt(
                         boardNumber,
                         portNumber,
                         interfaceNumber

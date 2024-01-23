@@ -13,12 +13,13 @@ Supported BDCOM commands:
 
 - enable
 - show cpu
-- show epon inactive onu
-- show epon interface epon x/y:z onu ctc opt
-- show epon onu information interface epon x/y
-- show epon optical-transceiver-diagnostic interface epon x/y
+- show epon|gpon inactive onu
+- show epon|gpon interface epon x/y:z onu ctc opt
+- show epon|gpon onu information interface epon x/y
+- show epon|gpon optical-transceiver-diagnostic interface epon x/y
 - show mac-address-table dynamic
 - show mac-address-table int x y/z:w
+- show int status x/y:z
 
 New commands can be easily added by extending the `src/code/devices` modules.
 
@@ -58,9 +59,10 @@ For more information about Prisma setup environment see [here](https://pris.ly/d
 
 ## Usage
 
-- `initDatabaseSample.ts` - fills the database with sample data
+- `initDatabaseSample.ts` - example how to initialize or fill the database with sample data
 - `start.ts` - sample commands execution
 - `exCron.ts` - sample cron job execution
+- `ex*` - examples for different commands
 
 ## Contact
 

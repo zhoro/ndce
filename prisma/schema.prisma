@@ -61,6 +61,7 @@ model NetworkDevice {
   StatInactiveOnu      StatInactiveOnu[]
   StatOnuDevice        StatOnuDevice[]
   StatOnuOpticalSignal StatOnuOpticalSignal[]
+  StatInterfaces       StatInterfaces[]
   enabled              Boolean                @default(true)
 }
 
@@ -122,4 +123,32 @@ model StatInactiveOnu {
   @@index([macAddressOnu])
   @@index([serialNumberOnu])
   @@index([status])
+}
+
+model StatInterfaces {
+  id                  Int           @id @default(autoincrement())
+  ifState             String        @default("")
+  ifLineProtocolState String        @default("")
+  ifSpeedMb           Int
+  bandwidth           Int
+  description         String        @default("")
+  hardwareType        String        @default("")
+  fiveMinutesInRate   BigInt        @default(0)
+  fiveMinutesOutRate  BigInt        @default(0)
+  realtimeInRates     BigInt        @default(0)
+  realtimeOutRates    BigInt        @default(0)
+  peakInRates         BigInt        @default(0)
+  peakOutRates        BigInt        @default(0)
+  rxErrorCount        Int           @default(0)
+  board               Int
+  port                Int
+  xponInterfaceNum    Int
+  createdAt           DateTime      @default(now())
+  networkDeviceId     Int
+  networkDevice       NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+
+  @@index([networkDeviceId])
+  @@index([board])
+  @@index([port])
+  @@index([xponInterfaceNum])
 }
