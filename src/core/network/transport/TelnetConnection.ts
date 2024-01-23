@@ -162,21 +162,21 @@ export class TelnetConnection implements IDeviceConnection {
     async execute(
         command: string,
         params: IDeviceCommandParams,
-        retryCount: number = 3
+        retryCount: number = 3,
     ) {
         this.debug(
-            `TelnetConnection.execute: ${command}. Timeout: ${params.sendTimeout}`
+            `TelnetConnection.execute: ${command}. Timeout: ${params.sendTimeout}`,
         );
         for (let i = 0; i < retryCount; i++) {
             try {
                 if (!this.isConnected) {
                     this.debug(
-                        'TelnetConnection.execute: not connected, trying to reconnect'
+                        'TelnetConnection.execute: not connected, trying to reconnect',
                     );
                     await this.connect();
                     if (!this.isConnected) {
                         this.debug(
-                            'TelnetConnection.execute: reconnection failed'
+                            'TelnetConnection.execute: reconnection failed',
                         );
                         return Promise.reject('Reconnection failed');
                     }
@@ -186,15 +186,15 @@ export class TelnetConnection implements IDeviceConnection {
                 });
                 while (
                     result.includes(
-                        this.deviceConfiguration.messagePageSeparator
+                        this.deviceConfiguration.messagePageSeparator,
                     )
-                ) {
+                    ) {
                     result = result.replace(
                         new RegExp(
                             this.deviceConfiguration.messagePageSeparator,
-                            'g'
+                            'g',
                         ),
-                        ''
+                        '',
                     );
                     result += await this.telnet.send(' ');
                 }
@@ -203,7 +203,7 @@ export class TelnetConnection implements IDeviceConnection {
                 this.debug(
                     `TelnetConnection.execute: command execution failed. Error ${error}! Attempt ${
                         i + 1
-                    }`
+                    }`,
                 );
                 if (i < retryCount - 1) {
                     this.debug('TelnetConnection.execute: retrying');
@@ -222,7 +222,7 @@ export class TelnetConnection implements IDeviceConnection {
 
     onTimeout() {
         this.debug(
-            `TelnetConnection.onTimeout: Host ${this.params.host} socket timeout. (This is only to notify that the socket has been idle)`
+            `TelnetConnection.onTimeout: Host ${this.params.host} socket timeout. (This is only to notify that the socket has been idle)`,
         );
     }
 
