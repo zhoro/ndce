@@ -1,4 +1,4 @@
-npx prisma migrate dev --name-- DropIndex
+-- DropIndex
 DROP INDEX "StatInterfaces_portType_idx";
 
 -- AlterTable
