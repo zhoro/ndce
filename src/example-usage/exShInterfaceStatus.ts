@@ -213,6 +213,7 @@ export async function exCmdShowInterfaceStatus(
                 ifSpeedMb: +interfaceStatus.ifSpeed,
                 description: interfaceStatus.description,
                 hardwareType: interfaceStatus.hardwareType,
+                portType: interfaceStatus.portType
             },
         });
     }

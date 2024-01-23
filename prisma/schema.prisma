@@ -142,6 +142,7 @@ model StatInterfaces {
   rxErrorCount        Int           @default(0)
   board               Int
   port                Int
+  portType            String        @default("")
   xponInterfaceNum    Int
   createdAt           DateTime      @default(now())
   networkDeviceId     Int
@@ -151,4 +152,5 @@ model StatInterfaces {
   @@index([board])
   @@index([port])
   @@index([xponInterfaceNum])
+  @@index([portType])
 }

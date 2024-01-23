@@ -56,6 +56,7 @@ export const cmdShowIntStatus = (
                     portNum: Number(match.groups.port),
                     rxError: Number(match.groups.rxError || 0),
                     xponInterfaceNum: Number(match.groups.interface || 0),
+                    portType: portType
                 };
                 return interfaceStatus;
             }

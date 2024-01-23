@@ -14,4 +14,5 @@ export interface ISwitchInterfaceStatus {
     rxError: number;
     boardNum: number;
     portNum: number;
+    portType: string;
 }
