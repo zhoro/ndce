@@ -12,44 +12,26 @@ export const cmdShowXponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
             .replace(/[\b\r\n]/g, '')
             .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
         const regex =
-            /(EPON(\d)\/(\d):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s+(\d+)(\s+)?(\.)(\d{2}:\d{2}:\d{2}))/gm;
+            /(EPON(?<board>\d)\/(?<port>\d):(?<iface>\d{0,3})\s+(?<mac>\S+)\s+(?<dreason>\S+)\s+(?<datereg>\S+)(\s|\.)(?<treg>\S+)\s(?<ddereg>\S+)(\s|\.)(?<tdereg>\S+)\s(?<deregreason>\S+)\s+(?<adays>\d+)(\s+)?(\.)(?<atime>\d{2}:\d{2}:\d{2}))/gm;
         const deregisteredONUs: any[] = [];
         let match;
         while ((match = regex.exec(input)) !== null) {
-            const [
-                ,
-                wholeMatch,
-                xponBoard,
-                xponPort,
-                xponInterface,
-                macAddressOnu,
-                status,
-                lastRegDate,
-                lastRegTime,
-                lastDeregDate,
-                lastDeregTime,
-                lastDeregReason,
-                absentDays,
-                ,
-                ,
-                absentTime,
-            ] = match;
             const onuObject: IBdcomInactiveOnu = {
                 xponType: 'epon',
-                xponBoard: +xponBoard,
-                xponPort: +xponPort,
-                xponInterface: +xponInterface,
+                xponBoard: Number(match.groups.board),
+                xponPort: Number(match.groups.port),
+                xponInterface: Number(match.groups.iface),
                 loid: '',
                 serialNumber: '',
-                macAddressOnu,
-                status,
-                lastRegDate,
-                lastRegTime,
-                lastDeregDate,
-                lastDeregTime,
-                lastDeregReason,
-                absentDays,
-                absentTime,
+                macAddressOnu: match.groups.mac,
+                status: match.groups.dreason,
+                lastRegDate: match.groups.datereg,
+                lastRegTime: match.groups.treg,
+                lastDeregDate: match.groups.ddereg,
+                lastDeregTime: match.groups.tdereg,
+                lastDeregReason: match.groups.deregreason,
+                absentDays: match.groups.adays,
+                absentTime: match.groups.atime,
             };
             deregisteredONUs.push(onuObject);
         }

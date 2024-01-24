@@ -93,7 +93,7 @@ export async function exCmdShEponInactiveOnu(
                 const inactiveOnus: IBdcomInactiveOnu[] = await device.execute(
                     devConf.commands.cmdShowXponInactiveOnu
                 );
-                debug('OnuOpticalSignal: ' + JSON.stringify(inactiveOnus));
+                debug('InactiveONU: ' + JSON.stringify(inactiveOnus));
                 //set all previous inactive ONUs to newest = false
                 await prisma.statInactiveOnu.updateMany({
                     where: {

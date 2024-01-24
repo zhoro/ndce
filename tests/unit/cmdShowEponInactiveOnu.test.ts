@@ -26,6 +26,31 @@ describe('cmdShowEponInactiveOnu', () => {
         ]);
     });
 
+    it('should correctly analyze the data BDCOM 3310C version', () => {
+        const mockData =
+            'EPON0/3:61 9845.62cd.9050 deregistered    2024.01.24.09:04:38 2024.01.24.10:58:38 wire-down         0.01:17:55';
+        const result = cmdShowXponInactiveOnu.analyzer(mockData);
+        expect(result).toEqual([
+            {
+                xponType: 'epon',
+                xponBoard: 0,
+                xponPort: 3,
+                xponInterface: 61,
+                macAddressOnu: '9845.62cd.9050',
+                serialNumber: '',
+                loid: '',
+                status: 'deregistered',
+                lastRegDate: '2024.01.24',
+                lastRegTime: '09:04:38',
+                lastDeregDate: '2024.01.24',
+                lastDeregTime: '10:58:38',
+                lastDeregReason: 'wire-down',
+                absentDays: '0',
+                absentTime: '01:17:55',
+            },
+        ]);
+    });
+
     it('should return correct command', () => {
         const result = cmdShowXponInactiveOnu.command();
         expect(result).toBe('show epon inactive-onu');

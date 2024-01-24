@@ -1,6 +1,6 @@
 {
   "name": "@zhoro/ndce",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A command executor for network devices that captures and stores output in a database for subsequent analysis",
   "author": {
     "name": "Andy Zhovtiak",
@@ -21,14 +21,14 @@
   "dependencies": {
     "@prisma/client": "^5.8.1",
     "debug": "^4.3.4",
-    "dotenv": "^16.3.2",
+    "dotenv": "^16.4.0",
     "telnet-client": "^2.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/debug": "^4.1.12",
     "@types/jest": "^29.5.11",
-    "@types/node": "^20.11.5",
+    "@types/node": "^20.11.6",
     "chai": "^4.4.1",
     "copyfiles": "^2.4.1",
     "dotenv-cli": "^7.3.0",
