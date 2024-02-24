@@ -29,6 +29,7 @@ export async function exCmdShowInterfaceStatus(
         }
 
         const promises = networkDevs.map(async (networkDevice) => {
+            let statData: any[] = [];
             if (networkDevice.deviceModel.deviceType.type !== 'olt') {
                 debug('device type is not OLT, skipping');
                 return;
@@ -36,7 +37,7 @@ export async function exCmdShowInterfaceStatus(
             const devConf =
                 networkDevices[`${networkDevice.deviceModel.vendor.name}`][
                     `${networkDevice.deviceModel.name}`
-                ];
+                    ];
             if (devConf === undefined) {
                 debug(
                     `device configuration not found for: ${networkDevice.deviceModel.vendor.name}/${networkDevice.deviceModel.name}', skipping`
@@ -63,19 +64,17 @@ export async function exCmdShowInterfaceStatus(
 
             debug(
                 'vendor: ' +
-                    JSON.stringify(networkDevice.deviceModel.vendor.name)
+                JSON.stringify(networkDevice.deviceModel.vendor.name)
             );
             debug(
                 'device model: ' +
-                    JSON.stringify(networkDevice.deviceModel.name)
+                JSON.stringify(networkDevice.deviceModel.name)
             );
             debug(
                 'networkDevice: ' +
-                    JSON.stringify(networkDevice.deviceModel.deviceType.type)
+                JSON.stringify(networkDevice.deviceModel.deviceType.type)
             );
-            debug('transport: ' + JSON.stringify(transport));
             debug('host: ' + JSON.stringify(host));
-            debug('devConf: ' + JSON.stringify(devConf));
 
             await device.connect();
             if (device.isConnected) {
@@ -84,41 +83,31 @@ export async function exCmdShowInterfaceStatus(
             if (device.isLogged) {
                 await device.execute(devConf.commands.cmdEnable);
 
-                //get all PON interfaces for OLT
+                //get all PON interfaces for OLT in DB
                 const interfaces = await getOnuInformation(
                     prisma,
                     networkDevice.id
                 );
 
-                await handleInterfaceStatus(
-                    device,
-                    devConf,
-                    prisma,
-                    networkDevice.id,
+                const portTypes = [
                     DevicePortsType.GE,
-                    boardNumber,
-                    devConf.configuration.portsCount.GE
-                );
-                await handleInterfaceStatus(
-                    device,
-                    devConf,
-                    prisma,
-                    networkDevice.id,
                     DevicePortsType.XGE,
-                    boardNumber,
-                    devConf.configuration.portsCount.XGE
-                );
-                await handleInterfaceStatus(
-                    device,
-                    devConf,
-                    prisma,
-                    networkDevice.id,
                     DevicePortsType.PON,
-                    boardNumber,
-                    devConf.configuration.portsCount.PON
-                );
+                ];
 
-                //for every PON interface get interface status
+                for (const portType of portTypes) {
+                    statData.push(
+                        ...(await handleInterfaceStatus(
+                            device,
+                            devConf,
+                            networkDevice.id,
+                            portType,
+                            boardNumber,
+                            devConf.configuration.portsCount[portType]
+                        ))
+                    );
+                }
+
                 for (const iface of interfaces) {
                     try {
                         const interfaceStatus = await device.execute(
@@ -129,18 +118,23 @@ export async function exCmdShowInterfaceStatus(
                                 iface.xponInterface
                             )
                         );
-                        await saveDataToDb(
-                            prisma,
+                        const el = createDataObj(
                             networkDevice.id,
                             interfaceStatus
                         );
-                        // debug(` ${iface.xponBoard}/${iface.xponPort}:${iface.xponInterface} on ${networkDevice.description} device, interface status: ${JSON.stringify(interfaceStatus)}`);
+                        if (el != null) {
+                            statData.push(el);
+                        }
                     } catch (e) {
                         debug(
                             `Can't get interface status for ${iface.xponBoard}/${iface.xponPort}:${iface.xponInterface} on ${networkDevice.description} device, skipping...`
                         );
                     }
                 }
+                const result = await prisma.statInterfaces.createMany({
+                    data: statData,
+                });
+                debug('Saved result: ' + JSON.stringify(result));
             } else {
                 debug(
                     `Can't login into ${networkDevice.description} device, skipping...`
@@ -159,13 +153,13 @@ export async function exCmdShowInterfaceStatus(
     async function handleInterfaceStatus(
         device: NetworkDevice,
         devConf: any,
-        prisma: PrismaClient,
         networkDeviceId: number,
         portType: DevicePortsType,
         boardNumber: number,
         portCount: number,
         interfaceNumber: number = 0
     ) {
+        const arrayData: any[] = [];
         for (let i = 1; i <= portCount; i++) {
             try {
                 const command = devConf.commands.cmdShowIntStatus(
@@ -174,47 +168,64 @@ export async function exCmdShowInterfaceStatus(
                     i,
                     interfaceNumber
                 );
-                command.setTimeout(1000);
                 const interfaceStatus = await device.execute(command);
-                await saveDataToDb(prisma, networkDeviceId, interfaceStatus);
+                arrayData.push(createDataObj(networkDeviceId, interfaceStatus));
             } catch (e) {
                 debug(
                     `Can't get interface status for ${boardNumber}/${i} on deviceId=${networkDeviceId}. Error ${e} skipping...`
                 );
             }
         }
+        return arrayData;
     }
 
-    async function saveDataToDb(
-        prisma: PrismaClient,
+    function createDataObj(
         networkDeviceId: number,
         interfaceStatus: IBdcomInterfaceStatus
     ) {
-        await prisma.statInterfaces.create({
-            data: {
-                networkDevice: {
-                    connect: {
-                        id: networkDeviceId,
-                    },
-                },
-                board: interfaceStatus.boardNum,
-                port: interfaceStatus.portNum,
-                xponInterfaceNum: interfaceStatus.xponInterfaceNum,
-                ifState: interfaceStatus.ifStatus,
-                ifLineProtocolState: interfaceStatus.ifLineProtocolStatus,
-                bandwidth: interfaceStatus.bandwidth,
-                fiveMinutesInRate: interfaceStatus.inRate5min,
-                fiveMinutesOutRate: interfaceStatus.outRate5min,
-                realtimeInRates: interfaceStatus.inRateCurrent,
-                realtimeOutRates: interfaceStatus.outRateCurrent,
-                peakInRates: interfaceStatus.inRatePeak,
-                peakOutRates: interfaceStatus.outRatePeak,
-                rxErrorCount: interfaceStatus.rxError,
-                ifSpeedMb: +interfaceStatus.ifSpeed,
-                description: interfaceStatus.description,
-                hardwareType: interfaceStatus.hardwareType,
-                portType: interfaceStatus.portType
-            },
-        });
+        const {
+            boardNum,
+            portNum,
+            xponInterfaceNum,
+            ifStatus,
+            ifLineProtocolStatus,
+            bandwidth,
+            inRate5min,
+            outRate5min,
+            inRateCurrent,
+            outRateCurrent,
+            inRatePeak,
+            outRatePeak,
+            rxError,
+            ifSpeed,
+            description,
+            hardwareType,
+            portType,
+        } = interfaceStatus;
+
+        if (typeof boardNum === 'undefined' || typeof portNum === 'undefined') {
+            return null;
+        } else {
+            return {
+                networkDeviceId,
+                board: boardNum,
+                port: portNum,
+                xponInterfaceNum,
+                ifState: ifStatus,
+                ifLineProtocolState: ifLineProtocolStatus,
+                bandwidth,
+                fiveMinutesInRate: inRate5min,
+                fiveMinutesOutRate: outRate5min,
+                realtimeInRates: inRateCurrent,
+                realtimeOutRates: outRateCurrent,
+                peakInRates: inRatePeak,
+                peakOutRates: outRatePeak,
+                rxErrorCount: rxError,
+                ifSpeedMb: +ifSpeed,
+                description,
+                hardwareType,
+                portType,
+            };
+        }
     }
 }
