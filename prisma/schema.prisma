@@ -90,6 +90,7 @@ model StatOnuDevice {
   @@index([xponPort])
   @@index([xponInterface])
   @@index([networkDeviceId])
+  @@index([createdAt])
 }
 
 model StatOnuOpticalSignal {
@@ -102,6 +103,12 @@ model StatOnuOpticalSignal {
   createdAt       DateTime      @default(now())
   networkDeviceId Int
   networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+
+  @@index([createdAt])
+  @@index([xponBoard])
+  @@index([xponInterface])
+  @@index([xponPort])
+  @@index([networkDeviceId])
 }
 
 model StatInactiveOnu {
@@ -123,6 +130,10 @@ model StatInactiveOnu {
   @@index([macAddressOnu])
   @@index([serialNumberOnu])
   @@index([status])
+  @@index([createdAt])
+  @@index([xponBoard])
+  @@index([xponInterface])
+  @@index([xponPort])
 }
 
 model StatInterfaces {
