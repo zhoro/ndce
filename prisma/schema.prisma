@@ -153,4 +153,5 @@ model StatInterfaces {
   @@index([port])
   @@index([xponInterfaceNum])
   @@index([portType])
+  @@index([createdAt])
 }
