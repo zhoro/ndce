@@ -6,6 +6,7 @@ import {P3600_08E} from './P3600_08E';
 import {GP3600_08B} from './GP3600-08B';
 import {P3608B} from './P3608B_08E';
 import {P3310C} from './P3310C';
+import {P3608} from './P3608';
 
 export const BDCOM = {
     generic_epon,
@@ -16,4 +17,5 @@ export const BDCOM = {
     GP3600_08B,
     P3608B,
     P3310C,
+    P3608
 };
