@@ -1,168 +1,194 @@
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../src/generated/prisma-client"
-  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x", "windows"]
+    provider      = "prisma-client-js"
+    output        = "../src/generated/prisma-client"
+    binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x", "windows"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model DeviceType {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  type        String        @unique @default("olt")
-  DeviceModel DeviceModel[]
+    id          Int           @id @default(autoincrement())
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    type        String        @unique @default("olt")
+    DeviceModel DeviceModel[]
 }
 
 model DeviceVendor {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  name        String        @unique
-  DeviceModel DeviceModel[]
+    id          Int           @id @default(autoincrement())
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    name        String        @unique
+    DeviceModel DeviceModel[]
 }
 
 model DeviceModel {
-  id            Int             @id @default(autoincrement())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  name          String          @unique
-  vendorId      Int
-  deviceTypeId  Int
-  deviceType    DeviceType      @relation(fields: [deviceTypeId], references: [id])
-  vendor        DeviceVendor    @relation(fields: [vendorId], references: [id])
-  NetworkDevice NetworkDevice[]
+    id            Int             @id @default(autoincrement())
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    name          String          @unique
+    vendorId      Int
+    deviceTypeId  Int
+    deviceType    DeviceType      @relation(fields: [deviceTypeId], references: [id])
+    vendor        DeviceVendor    @relation(fields: [vendorId], references: [id])
+    NetworkDevice NetworkDevice[]
 }
 
 model DeviceCredential {
-  id            Int             @id @default(autoincrement())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  username      String          @default("admin")
-  password      String          @default("admin")
-  NetworkDevice NetworkDevice[]
+    id            Int             @id @default(autoincrement())
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    username      String          @default("admin")
+    password      String          @default("admin")
+    NetworkDevice NetworkDevice[]
 }
 
 model NetworkDevice {
-  id                   Int                    @id @default(autoincrement())
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  accessIpAddressV4    String                 @unique
-  accessType           String                 @default("telnet")
-  accessPort           String                 @default("23")
-  description          String                 @default("")
-  deviceModelId        Int
-  deviceCredentialId   Int
-  deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
-  deviceModel          DeviceModel            @relation(fields: [deviceModelId], references: [id])
-  StatInactiveOnu      StatInactiveOnu[]
-  StatOnuDevice        StatOnuDevice[]
-  StatOnuOpticalSignal StatOnuOpticalSignal[]
-  StatInterfaces       StatInterfaces[]
-  enabled              Boolean                @default(true)
+    id                   Int                    @id @default(autoincrement())
+    createdAt            DateTime               @default(now())
+    updatedAt            DateTime               @updatedAt
+    accessIpAddressV4    String                 @unique
+    accessType           String                 @default("telnet")
+    accessPort           String                 @default("23")
+    description          String                 @default("")
+    deviceModelId        Int
+    deviceCredentialId   Int
+    deviceCredential     DeviceCredential       @relation(fields: [deviceCredentialId], references: [id])
+    deviceModel          DeviceModel            @relation(fields: [deviceModelId], references: [id])
+    StatInactiveOnu      StatInactiveOnu[]
+    StatActiveOnu        StatActiveOnu[]
+    StatOnuDevice        StatOnuDevice[]
+    StatOnuOpticalSignal StatOnuOpticalSignal[]
+    StatInterfaces       StatInterfaces[]
+    enabled              Boolean                @default(true)
 }
 
 model StatOnuDevice {
-  id              Int           @id @default(autoincrement())
-  vendorId        String
-  modelId         String
-  macAddressOnu   String        @default("")
-  serialNumberOnu String        @default("")
-  description     String
-  bindType        String
-  status          String
-  deregReason     String
-  createdAt       DateTime      @default(now())
-  networkDeviceId Int
-  xponBoard       Int
-  xponPort        Int
-  xponInterface   Int
-  xponType        String        @default("pon")
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    id              Int           @id @default(autoincrement())
+    vendorId        String
+    modelId         String
+    macAddressOnu   String        @default("")
+    serialNumberOnu String        @default("")
+    description     String
+    bindType        String
+    status          String
+    deregReason     String
+    createdAt       DateTime      @default(now())
+    networkDeviceId Int
+    xponBoard       Int
+    xponPort        Int
+    xponInterface   Int
+    xponType        String        @default("pon")
+    networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
-  @@index([macAddressOnu])
-  @@index([serialNumberOnu])
-  @@index([status])
-  @@index([xponBoard])
-  @@index([xponPort])
-  @@index([xponInterface])
-  @@index([networkDeviceId])
-  @@index([createdAt])
+    @@index([macAddressOnu])
+    @@index([serialNumberOnu])
+    @@index([status])
+    @@index([xponBoard])
+    @@index([xponPort])
+    @@index([xponInterface])
+    @@index([networkDeviceId])
+    @@index([createdAt])
 }
 
 model StatOnuOpticalSignal {
-  id              Int           @id @default(autoincrement())
-  xponBoard       Int
-  xponPort        Int
-  xponInterface   Int
-  rxPower         Float
-  txPower         Float
-  createdAt       DateTime      @default(now())
-  networkDeviceId Int
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    id              Int           @id @default(autoincrement())
+    xponBoard       Int
+    xponPort        Int
+    xponInterface   Int
+    rxPower         Float
+    txPower         Float
+    createdAt       DateTime      @default(now())
+    networkDeviceId Int
+    networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
-  @@index([createdAt])
-  @@index([xponBoard])
-  @@index([xponInterface])
-  @@index([xponPort])
-  @@index([networkDeviceId])
+    @@index([createdAt])
+    @@index([xponBoard])
+    @@index([xponInterface])
+    @@index([xponPort])
+    @@index([networkDeviceId])
+}
+
+model StatActiveOnu {
+    id              Int           @id @default(autoincrement())
+    xponBoard       Int
+    xponPort        Int
+    xponInterface   Int
+    macAddressOnu   String
+    serialNumberOnu String        @default("")
+    status          String
+    lastRegister    DateTime
+    lastDeregister  DateTime
+    dereason        String
+    alivetime       Int
+    networkDeviceId Int
+    networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    createdAt       DateTime      @default(now())
+    newest          Boolean       @default(true)
+
+    @@index([macAddressOnu])
+    @@index([serialNumberOnu])
+    @@index([createdAt])
+    @@index([xponBoard])
+    @@index([xponInterface])
+    @@index([xponPort])
 }
 
 model StatInactiveOnu {
-  id              Int           @id @default(autoincrement())
-  xponBoard       Int
-  xponPort        Int
-  xponInterface   Int
-  macAddressOnu   String
-  serialNumberOnu String        @default("")
-  status          String
-  deregReason     String
-  lastRegister    DateTime
-  lastDeregister  DateTime
-  createdAt       DateTime      @default(now())
-  networkDeviceId Int
-  newest          Boolean       @default(true)
-  networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    id              Int           @id @default(autoincrement())
+    xponBoard       Int
+    xponPort        Int
+    xponInterface   Int
+    macAddressOnu   String
+    serialNumberOnu String        @default("")
+    status          String
+    deregReason     String
+    lastRegister    DateTime
+    lastDeregister  DateTime
+    createdAt       DateTime      @default(now())
+    networkDeviceId Int
+    newest          Boolean       @default(true)
+    networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
-  @@index([macAddressOnu])
-  @@index([serialNumberOnu])
-  @@index([status])
-  @@index([createdAt])
-  @@index([xponBoard])
-  @@index([xponInterface])
-  @@index([xponPort])
+    @@index([macAddressOnu])
+    @@index([serialNumberOnu])
+    @@index([status])
+    @@index([createdAt])
+    @@index([xponBoard])
+    @@index([xponInterface])
+    @@index([xponPort])
 }
 
 model StatInterfaces {
-  id                  Int           @id @default(autoincrement())
-  ifState             String        @default("")
-  ifLineProtocolState String        @default("")
-  ifSpeedMb           Int
-  bandwidth           Int
-  description         String        @default("")
-  hardwareType        String        @default("")
-  fiveMinutesInRate   BigInt        @default(0)
-  fiveMinutesOutRate  BigInt        @default(0)
-  realtimeInRates     BigInt        @default(0)
-  realtimeOutRates    BigInt        @default(0)
-  peakInRates         BigInt        @default(0)
-  peakOutRates        BigInt        @default(0)
-  rxErrorCount        Int           @default(0)
-  board               Int
-  port                Int
-  portType            String        @default("")
-  xponInterfaceNum    Int
-  createdAt           DateTime      @default(now())
-  networkDeviceId     Int
-  networkDevice       NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    id                  Int           @id @default(autoincrement())
+    ifState             String        @default("")
+    ifLineProtocolState String        @default("")
+    ifSpeedMb           Int
+    bandwidth           Int
+    description         String        @default("")
+    hardwareType        String        @default("")
+    fiveMinutesInRate   BigInt        @default(0)
+    fiveMinutesOutRate  BigInt        @default(0)
+    realtimeInRates     BigInt        @default(0)
+    realtimeOutRates    BigInt        @default(0)
+    peakInRates         BigInt        @default(0)
+    peakOutRates        BigInt        @default(0)
+    rxErrorCount        Int           @default(0)
+    board               Int
+    port                Int
+    portType            String        @default("")
+    xponInterfaceNum    Int
+    createdAt           DateTime      @default(now())
+    networkDeviceId     Int
+    networkDevice       NetworkDevice @relation(fields: [networkDeviceId], references: [id])
 
-  @@index([networkDeviceId])
-  @@index([board])
-  @@index([port])
-  @@index([xponInterfaceNum])
-  @@index([portType])
-  @@index([createdAt])
+    @@index([networkDeviceId])
+    @@index([board])
+    @@index([port])
+    @@index([xponInterfaceNum])
+    @@index([portType])
+    @@index([createdAt])
 }

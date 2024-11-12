@@ -1,4 +1,5 @@
 {
+  "plugins": ["prettier-plugin-prisma"],
   "arrowParens": "always",
   "bracketSameLine": true,
   "bracketSpacing": false,
