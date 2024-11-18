@@ -5,6 +5,7 @@ import {exCmdShowEponIntEponOnuCtcOpt} from './exShEponIntEponOnuCtcOpt';
 import {exCmdShEponInactiveOnu} from './exShEponInactiveOnu';
 import {exCmdShowXponIntOnuOpt} from './exShXponIntOnuOpt';
 import {exCmdShowInterfaceStatus} from './exShInterfaceStatus';
+import {exCmdShEponActiveOnu} from './exShEponActiveOnu';
 
 dotenv.config();
 const debug = Debug('ndce:exCron');
@@ -15,6 +16,7 @@ async function run() {
     await exCmdShowEponIntEponOnuCtcOpt(1, 0, 1, 1);
     await exCmdShowEponIntEponOnuCtcOpt(2, 0, 1, 1);
     await exCmdShEponInactiveOnu();
+    await exCmdShEponActiveOnu();
     await exCmdShowXponIntOnuOpt(0);
     await exCmdShowInterfaceStatus(0);
 }
