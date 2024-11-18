@@ -6,6 +6,7 @@ import {cmdEnable} from './cmdEnable';
 import {cmdShowXponOnuInfo} from './cmdShowXponOnuInfo';
 import {cmdShowXponIntXponOnuOpt} from './cmdShowXponIntXponOnuOpt';
 import {cmdShowXponInactiveOnu} from './cmdShowXponInactiveOnu';
+import {cmdShowXponActiveOnu} from './cmdShowXponActiveOnu';
 import {cmdShowXponOptTrDiagInt} from './cmdShowXponOptTrDiagInt';
 import {cmdShowMacAddTableDynamic} from './cmdShowMacAddTableDynamic';
 import {cmdShowMacAddTableInt} from './cmdShowMacAddTableInt';
@@ -69,5 +70,6 @@ export const generic_epon: {
         cmdShowMacAddTableDynamic: cmdShowMacAddTableDynamic,
         cmdShowMacAddTableInt: cmdShowMacAddTableInt,
         cmdShowIntStatus: cmdShowIntStatus,
+        cmdShowXponActiveOnu: cmdShowXponActiveOnu,
     },
 };

@@ -13,6 +13,7 @@ Supported BDCOM commands:
 
 - enable
 - show cpu
+- show epon|gpon active onu
 - show epon|gpon inactive onu
 - show epon|gpon interface epon x/y:z onu ctc opt
 - show epon|gpon onu information interface epon x/y
