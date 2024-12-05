@@ -7,9 +7,9 @@ Stores the results in a database.
 
 Supported devices:
 
-- BDCOM OLTs
+- BDCOM OLT: `GP3600-08B`, `P3310C`, `P3310D`, `P3600-08E`, `P3600-16E`, `P3608`, `P3608-2TE`, `P3608B-08E`, `P3616-2TE`
 
-Supported BDCOM commands:
+Spported BDCOM commands:
 
 - enable
 - show cpu
