@@ -1,5 +1,5 @@
-import { cmdShowXponActiveOnu } from '../../src/core/devices/bdcom/generic/cmdShowXponActiveOnu';
-import { IBdcomActiveOnu } from '../../src';
+import {cmdShowXponActiveOnu} from '../../src/core/devices/bdcom/generic/cmdShowXponActiveOnu';
+import {IBdcomActiveOnu} from '../../src';
 import {cmdShowXponInactiveOnu} from '../../src/core/devices/bdcom/generic/cmdShowXponInactiveOnu';
 
 describe('cmdShowXponActiveOnu', () => {
@@ -49,6 +49,58 @@ describe('cmdShowXponActiveOnu', () => {
                 lastDeregReason: 'wire-down',
                 aliveDays: '3',
                 aliveTime: '06:19:13',
+            },
+        ];
+
+        const result = cmdShowXponActiveOnu.analyzer(data);
+        expect(result).toEqual(expectedOutput);
+    });
+    it('should parse the command output correctly', () => {
+        const data = `
+            EPON0/10:64      a094.6a10.db9f auto-configured  ctc-oam-oper 4856        2995    2025-01-02 16:05:54 N/A                 unknow            2  .04:44:21
+        `;
+        const expectedOutput: IBdcomActiveOnu[] = [
+            {
+                xponType: 'epon',
+                xponBoard: 0,
+                xponPort: 10,
+                xponInterface: 64,
+                macAddressOnu: 'a094.6a10.db9f',
+                serialNumber: '',
+                status: 'auto-configured',
+                lastRegDate: '2025-01-02',
+                lastRegTime: '16:05:54',
+                lastDeregDate: 'N/A',
+                lastDeregTime: '',
+                lastDeregReason: 'unknow',
+                aliveDays: '2',
+                aliveTime: '04:44:21',
+            },
+        ];
+
+        const result = cmdShowXponActiveOnu.analyzer(data);
+        expect(result).toEqual(expectedOutput);
+    });
+    it('should parse the command output correctly', () => {
+        const data = `
+            EPON0/10:57      a094.6a10.73f7 auto-configured  ctc-oam-oper 4144        2556    2025-01-04 20:29:18 2025-01-04 13:45:33 power-off         0  .00:20:58
+        `;
+        const expectedOutput: IBdcomActiveOnu[] = [
+            {
+                xponType: 'epon',
+                xponBoard: 0,
+                xponPort: 10,
+                xponInterface: 57,
+                macAddressOnu: 'a094.6a10.73f7',
+                serialNumber: '',
+                status: 'auto-configured',
+                lastRegDate: '2025-01-04',
+                lastRegTime: '20:29:18',
+                lastDeregDate: '2025-01-04',
+                lastDeregTime: '13:45:33',
+                lastDeregReason: 'power-off',
+                aliveDays: '0',
+                aliveTime: '00:20:58',
             },
         ];
 
