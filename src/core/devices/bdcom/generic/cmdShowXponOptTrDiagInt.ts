@@ -16,7 +16,8 @@ export const cmdShowXponOptTrDiagInt = (
             let input = data
                 .replace(/[\b\r\n]/g, '')
                 .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
-            const regex = /(epon(\d)\/(\d):(\d{0,3})\s+(-?\d{1,2}.\d))/gm;
+            const regex =
+                /(epon(\d{0,3})\/(\d{0,3}):(\d{0,3})\s+(-?\d{1,2}.\d))/gm;
             const onuInfo: IBdcomXponOptTrDiagInt[] = [];
             let match;
             while ((match = regex.exec(input)) !== null) {

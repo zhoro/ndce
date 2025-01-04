@@ -22,7 +22,7 @@ export const cmdShowXponOnuInfo = (
                 .replace(/[\b\r\n]/g, '')
                 .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
             const regex =
-                /(EPON(\d)\/(\d):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+))/gm;
+                /(EPON(\d{0,3})\/(\d{0,3}):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+))/gm;
             const onuDevices: any[] = [];
             let match;
             while ((match = regex.exec(input)) !== null) {

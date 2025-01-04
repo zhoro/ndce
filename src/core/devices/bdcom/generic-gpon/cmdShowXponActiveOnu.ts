@@ -12,7 +12,7 @@ export const cmdShowXponActiveOnu: IDeviceCommand<IBdcomActiveOnu> = {
             .replace(/[\b\r\n]/g, '')
             .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
         const regex =
-            /(GPON(?<board>\d)\/(?<port>\d):(?<iface>\d{0,3})\s+(?<serial>\S+)\s+(?<loid>\S+)\s+(?<datereg>\S+)(\.|\s)(?<treg>\d{2}\:\d{2}\:\d{2})\s+(?<alivedays>\d+)(d:)(?<alivetime>\d{2}\:\d{2}\:\d{2}))/gm;
+            /(GPON(?<board>\d{0,3})\/(?<port>\d{0,3}):(?<iface>\d{0,3})\s+(?<serial>\S+)\s+(?<loid>\S+)\s+(?<datereg>\S+)(\.|\s)(?<treg>\d{2}\:\d{2}\:\d{2})\s+(?<alivedays>\d+)(d:)(?<alivetime>\d{2}\:\d{2}\:\d{2}))/gm;
         const registeredONUs: any[] = [];
         let match;
         while ((match = regex.exec(input)) !== null) {

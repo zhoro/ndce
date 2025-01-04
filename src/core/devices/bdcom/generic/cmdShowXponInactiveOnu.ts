@@ -12,7 +12,7 @@ export const cmdShowXponInactiveOnu: IDeviceCommand<IBdcomInactiveOnu> = {
             .replace(/[\b\r\n]/g, '')
             .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
         const regex =
-            /(EPON(?<board>\d)\/(?<port>\d):(?<iface>\d{0,3})\s+(?<mac>\S+)\s+(?<dreason>\S+)\s+(?<datereg>\S+)(\s|\.)(?<treg>\S+)\s(?<ddereg>\S+)(\s|\.)(?<tdereg>\S+)\s(?<deregreason>\S+)\s+(?<adays>\d+)(\s+)?(\.)(?<atime>\d{2}:\d{2}:\d{2}))/gm;
+            /(EPON(?<board>\d{0,3})\/(?<port>\d{0,3}):(?<iface>\d{0,3})\s+(?<mac>\S+)\s+(?<dreason>\S+)\s+(?<datereg>\S+)(\s|\.)(?<treg>\S+)\s(?<ddereg>\S+)(\s|\.)(?<tdereg>\S+)\s(?<deregreason>\S+)\s+(?<adays>\d+)(\s+)?(\.)(?<atime>\d{2}:\d{2}:\d{2}))/gm;
         const deregisteredONUs: any[] = [];
         let match;
         while ((match = regex.exec(input)) !== null) {
