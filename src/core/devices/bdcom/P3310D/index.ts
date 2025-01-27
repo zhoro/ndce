@@ -3,6 +3,8 @@ import {IDeviceConfiguration} from '../../../network/interfaces/IDeviceConfigura
 import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 
 const messageAuthFailed = 'Authentication failed';
+const description = 'BDCOM P3310D';
+
 export const P3310D: {
     configuration: IDeviceConfiguration & IOltConfiguration;
     commands: any;
@@ -10,6 +12,7 @@ export const P3310D: {
     configuration: {
         ...generic_epon.configuration,
         messageAuthFailed,
+        description,
         portsCount: {
             ...generic_epon.configuration.portsCount,
             PON: 4,

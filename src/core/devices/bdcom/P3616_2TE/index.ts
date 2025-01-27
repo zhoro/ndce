@@ -3,6 +3,7 @@ import {IDeviceConfiguration} from '../../../network/interfaces/IDeviceConfigura
 import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 
 const messageAuthFailed = 'Authentication failed';
+const description = 'BDCOM P3616-2TE';
 export const P3616_2TE: {
     configuration: IDeviceConfiguration & IOltConfiguration;
     commands: any;

@@ -4,6 +4,7 @@ import {IDeviceConfiguration} from '../../network/interfaces/IDeviceConfiguratio
 import {cmdShowMacAddTableInt} from '../bdcom/generic/cmdShowMacAddTableInt';
 
 const type: DeviceType = 'switch';
+const description: string = 'Generic switch 24 ports 2 SFP';
 
 // device access type: telnet or ssh
 const deviceAccessTypes: DeviceAccessType = 'telnet';
@@ -35,6 +36,7 @@ export const generic_switch: {
     configuration: {
         type,
         deviceAccessTypes,
+        description,
         messageAuthFailed,
         messageLoginPrompt,
         messagePageSeparator,

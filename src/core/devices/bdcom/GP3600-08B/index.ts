@@ -4,6 +4,7 @@ import {generic_gpon} from '../generic-gpon';
 import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 
 const messageAuthFailed = 'Authentication failed';
+const description = 'BDCOM GP3600-08B';
 
 export const GP3600_08B: {
     configuration: IDeviceConfiguration & IOltConfiguration;

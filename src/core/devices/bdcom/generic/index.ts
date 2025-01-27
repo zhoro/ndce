@@ -18,6 +18,8 @@ const type: DeviceType = 'olt';
 
 const ponType: PonType = 'epon';
 
+const description: string = 'BDCOM Generic OLT 4xEPON';
+
 // device access type: telnet or ssh
 const deviceAccessTypes: DeviceAccessType = 'telnet';
 
@@ -53,6 +55,7 @@ export const generic_epon: {
     configuration: {
         type,
         ponType,
+        description,
         deviceAccessTypes,
         messageAuthFailed,
         messageLoginPrompt,

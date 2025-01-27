@@ -18,6 +18,8 @@ const type: DeviceType = 'olt';
 
 const ponType: PonType = 'gpon';
 
+const description: string = 'BDCOM Generic OLT 8xGPON';
+
 // device access type: telnet or ssh
 const deviceAccessTypes: DeviceAccessType = 'telnet';
 
@@ -53,6 +55,7 @@ export const generic_gpon: {
     configuration: {
         type,
         ponType,
+        description,
         deviceAccessTypes,
         messageAuthFailed,
         messageLoginPrompt,
