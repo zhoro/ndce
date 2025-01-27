@@ -1,59 +1,59 @@
 {
-  "name": "@zhoro/ndce",
-  "version": "0.0.22",
-  "description": "A command executor for network devices that captures and stores output in a database for subsequent analysis",
-  "author": {
-    "name": "Andy Zhovtiak",
-    "email": "andy@urlog.net"
-  },
-  "main": "dist/index.js",
-  "license": "MIT",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "start": "ts-node src/example-usage/start.ts",
-    "clean": "tsc --build --clean",
-    "build": "tsc --build && npm run assets:copy",
-    "db:generate": "dotenv -- prisma generate",
-    "docs": "typedoc src/**/*.ts",
-    "test": "jest --coverage",
-    "assets:copy": "npx copyfiles -u 1 \"./src/generated/**\" dist"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.22.0",
-    "debug": "^4.3.7",
-    "dotenv": "^16.4.5",
-    "telnet-client": "^2.2.1"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.3.20",
-    "@types/debug": "^4.1.12",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.9.0",
-    "chai": "^4.5.0",
-    "copyfiles": "^2.4.1",
-    "dotenv-cli": "^7.4.2",
-    "jest": "^29.7.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-prisma": "^5.0.0",
-    "prisma": "^5.22.0",
-    "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zhoro/ndce"
-  },
-  "keywords": [
-    "network",
-    "device",
-    "command",
-    "pon",
-    "gpon",
-    "xpon",
-    "olt",
-    "onu",
-    "bdcom",
-    "isp"
-  ]
+    "name": "@zhoro/ndce",
+    "version": "0.0.23",
+    "description": "A command executor for network devices that captures and stores output in a database for subsequent analysis",
+    "author": {
+        "name": "Andy Zhovtiak",
+        "email": "andy@urlog.net"
+    },
+    "main": "dist/index.js",
+    "license": "MIT",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "start": "ts-node src/example-usage/start.ts",
+        "clean": "tsc --build --clean",
+        "build": "tsc --build && npm run assets:copy",
+        "db:generate": "dotenv -- prisma generate",
+        "docs": "typedoc src/**/*.ts",
+        "test": "jest --coverage",
+        "assets:copy": "npx copyfiles -u 1 \"./src/generated/**\" dist"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.2.1",
+        "debug": "^4.4.0",
+        "dotenv": "^16.4.7",
+        "telnet-client": "^2.2.1"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.3.20",
+        "@types/debug": "^4.1.12",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.10.10",
+        "chai": "^4.5.0",
+        "copyfiles": "^2.4.1",
+        "dotenv-cli": "^8.0.0",
+        "jest": "^29.7.0",
+        "prettier": "^3.4.2",
+        "prettier-plugin-prisma": "^5.0.0",
+        "prisma": "^6.2.1",
+        "ts-jest": "^29.2.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.5.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zhoro/ndce"
+    },
+    "keywords": [
+        "network",
+        "device",
+        "command",
+        "pon",
+        "gpon",
+        "xpon",
+        "olt",
+        "onu",
+        "bdcom",
+        "isp"
+    ]
 }
