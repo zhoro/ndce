@@ -13,6 +13,7 @@ Spported BDCOM commands:
 
 - enable
 - show cpu
+- show version
 - show epon|gpon active onu
 - show epon|gpon inactive onu
 - show epon|gpon interface epon x/y:z onu ctc opt
@@ -54,7 +55,6 @@ import {PrismaClient} from '@zhoro/ndce';
 const prisma = new PrismaClient();
 
 ```
-
 
 For more information about Prisma setup environment see [here](https://pris.ly/d/getting-started).
 

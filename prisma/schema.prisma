@@ -64,6 +64,20 @@ model NetworkDevice {
     StatOnuOpticalSignal StatOnuOpticalSignal[]
     StatInterfaces       StatInterfaces[]
     enabled              Boolean                @default(true)
+    NetworkDeviceVersion NetworkDeviceVersion[]
+}
+
+model NetworkDeviceVersion {
+    id              Int           @id @default(autoincrement())
+    networkDeviceId Int
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    networkDevice   NetworkDevice @relation(fields: [networkDeviceId], references: [id])
+    model           String
+    softwareVersion String
+    hardwareVersion String
+    macAddress      String
+    serialNumber    String
 }
 
 model StatOnuDevice {

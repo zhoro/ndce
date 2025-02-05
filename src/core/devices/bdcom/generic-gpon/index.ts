@@ -13,6 +13,7 @@ import {PonType} from '../generic/interfaces/IBdcomPonType';
 import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 import {cmdShowIntStatus} from './cmdShowIntStatus';
 import {cmdShowXponActiveOnu} from './cmdShowXponActiveOnu';
+import {cmdShowVersion} from './cmdShowVersion';
 
 const type: DeviceType = 'olt';
 
@@ -74,5 +75,6 @@ export const generic_gpon: {
         cmdShowMacAddTableInt: cmdShowMacAddTableInt,
         cmdShowIntStatus: cmdShowIntStatus,
         cmdShowXponActiveOnu: cmdShowXponActiveOnu,
+        cmdShowVersion: cmdShowVersion,
     },
 };

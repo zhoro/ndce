@@ -13,6 +13,7 @@ import {cmdShowMacAddTableInt} from './cmdShowMacAddTableInt';
 import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 import {PonType} from './interfaces/IBdcomPonType';
 import {cmdShowIntStatus} from './cmdShowIntStatus';
+import {cmdShowVersion} from './cmdShowVersion';
 
 const type: DeviceType = 'olt';
 
@@ -74,5 +75,6 @@ export const generic_epon: {
         cmdShowMacAddTableInt: cmdShowMacAddTableInt,
         cmdShowIntStatus: cmdShowIntStatus,
         cmdShowXponActiveOnu: cmdShowXponActiveOnu,
+        cmdShowVersion: cmdShowVersion,
     },
 };
