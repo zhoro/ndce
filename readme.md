@@ -9,7 +9,7 @@ Supported devices:
 
 - BDCOM OLT: `GP3600-08B`, `P3310C`, `P3310D`, `P3600-08E`, `P3600-16E`, `P3608`, `P3608-2TE`, `P3608B-08E`, `P3616-2TE`
 
-Spported BDCOM commands:
+Supported BDCOM commands:
 
 - enable
 - show cpu
@@ -22,6 +22,8 @@ Spported BDCOM commands:
 - show mac-address-table dynamic
 - show mac-address-table int x y/z:w
 - show int status x/y:z
+- clear mib (clear counters)
+- clear mac-address-table dynamic
 
 New commands can be easily added by extending the `src/code/devices` modules.
 

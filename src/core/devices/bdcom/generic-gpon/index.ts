@@ -14,6 +14,8 @@ import {IOltConfiguration} from '../../../network/interfaces/IOltConfiguration';
 import {cmdShowIntStatus} from './cmdShowIntStatus';
 import {cmdShowXponActiveOnu} from './cmdShowXponActiveOnu';
 import {cmdShowVersion} from './cmdShowVersion';
+import {cmdClearMib} from '../generic/cmdClearMib';
+import {cmdClearMacAddressTableDynamic} from '../generic/cmdClearMacAddressTableDynamic';
 
 const type: DeviceType = 'olt';
 
@@ -76,5 +78,7 @@ export const generic_gpon: {
         cmdShowIntStatus: cmdShowIntStatus,
         cmdShowXponActiveOnu: cmdShowXponActiveOnu,
         cmdShowVersion: cmdShowVersion,
+        cmdClearMib: cmdClearMib,
+        cmdClearMacAddressTableDynamic: cmdClearMacAddressTableDynamic,
     },
 };
