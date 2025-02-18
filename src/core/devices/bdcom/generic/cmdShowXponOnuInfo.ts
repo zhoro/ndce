@@ -22,37 +22,23 @@ export const cmdShowXponOnuInfo = (
                 .replace(/[\b\r\n]/g, '')
                 .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
             const regex =
-                /(EPON(\d{0,3})\/(\d{0,3}):(\d{0,3})\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+))/gm;
+                /(EPON(?<board>\d{0,3})\/(?<port>\d{0,3}):(?<face>\d{0,3})(\s+)?(?<vendor>\S+)\s+(?<model>\S+)\s+(?<mac>(?:[A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}|(?:[A-Fa-f0-9]{4}\.){2}[A-Fa-f0-9]{3,4})\s+(?<desc>\S+)\s+(?<bind>\S+)\s+(?<status>\S+)\s+(?<dereg>\S+))/gm;
             const onuDevices: any[] = [];
             let match;
             while ((match = regex.exec(input)) !== null) {
-                const [
-                    ,
-                    wholeMatch,
-                    xponBoard,
-                    xponPort,
-                    xponInterface,
-                    vendorId,
-                    modelId,
-                    macAddressOnu,
-                    description,
-                    bindType,
-                    status,
-                    deregReason,
-                ] = match;
                 const onuObject: IBdcomOnuDevice = {
                     xponType: 'epon',
                     serialNumberOnu: '',
-                    xponBoard: +xponBoard,
-                    xponPort: +xponPort,
-                    xponInterface: +xponInterface,
-                    vendorId,
-                    modelId,
-                    macAddressOnu,
-                    description,
-                    bindType,
-                    status,
-                    deregReason,
+                    xponBoard: Number(match.groups.board),
+                    xponPort: Number(match.groups.port),
+                    xponInterface: Number(match.groups.face),
+                    vendorId: match.groups.vendor,
+                    modelId: match.groups.model,
+                    macAddressOnu: match.groups.mac,
+                    description: match.groups.desc,
+                    bindType: match.groups.bind,
+                    status: match.groups.status,
+                    deregReason: match.groups.dereg,
                 };
                 onuDevices.push(onuObject);
             }

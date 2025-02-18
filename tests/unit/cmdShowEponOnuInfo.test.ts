@@ -30,6 +30,35 @@ describe('cmdShowEponOnuInfo', () => {
 
             expect(result.analyzer(mockData)).toEqual(expectedOutput);
         });
+
+        it('should return an object with the correct structure', () => {
+            const boardNumber = 0;
+            const portNumber = 10;
+            const result = cmdShowXponOnuInfo(boardNumber, portNumber);
+
+            // Mock data to simulate the response from the device
+            const mockData =
+                'EPON0/10:10PICO      E910       10a5.6add.665f N/A                             static    auto-configured N/A';
+
+            const expectedOutput = [
+                {
+                    xponBoard: 0,
+                    xponPort: 10,
+                    xponInterface: 10,
+                    vendorId: 'PICO',
+                    modelId: 'E910',
+                    macAddressOnu: '10a5.6add.665f',
+                    description: 'N/A',
+                    bindType: 'static',
+                    status: 'auto-configured',
+                    deregReason: 'N/A',
+                    serialNumberOnu: '',
+                    xponType: 'epon',
+                },
+            ];
+
+            expect(result.analyzer(mockData)).toEqual(expectedOutput);
+        });
     });
 
     describe('analyzer', () => {
