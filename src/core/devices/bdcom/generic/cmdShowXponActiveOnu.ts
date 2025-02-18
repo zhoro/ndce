@@ -12,7 +12,7 @@ export const cmdShowXponActiveOnu: IDeviceCommand<IBdcomActiveOnu> = {
             .replace(/[\b\r\n]/g, '')
             .replace(/(\s)\s*(\w)\s*(\s)/g, '$1$2');
         const regex =
-            /(EPON(?<board>\d{0,3})\/(?<port>\d{0,3}):(?<iface>\d{0,3})\s+(?<mac>\S+)\s+(?<status>\S+)\s+(?<oamstatus>\S+)\s+(?<distance>\d+)\s+(?<rtt>\d+)\s+(?<datereg>\S+)(\.|\s)(?<treg>\d{2}\:\d{2}\:\d{2})\s+(?<datedereg>\S+|)(\.|\s)(?<tdereg>\d{2}\:\d{2}\:\d{2}|)\s+(?<deregreason>\S+)\s+(?<alivedays>\d+)(\s+\.|\.)(?<alivetime>\d{2}\:\d{2}\:\d{2}))/gm;
+            /(EPON(?<board>\d{0,3})\/(?<port>\d{0,3}):(?<iface>\d{0,3})(\s+)?(?<mac>(?:[A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}|(?:[A-Fa-f0-9]{4}\.){2}[A-Fa-f0-9]{3,4})\s+(?<status>\S+)\s+(?<oamstatus>\S+)\s+(?<distance>\d+)\s+(?<rtt>\d+)\s+(?<datereg>\S+)(\.|\s)(?<treg>\d{2}\:\d{2}\:\d{2})\s+(?<datedereg>\S+|)(\.|\s)(?<tdereg>\d{2}\:\d{2}\:\d{2}|)\s+(?<deregreason>\S+)\s+(?<alivedays>\d+)(\s+\.|\.)(?<alivetime>\d{2}\:\d{2}\:\d{2}))/gm;
         const registeredONUs: any[] = [];
         let match;
         while ((match = regex.exec(input)) !== null) {

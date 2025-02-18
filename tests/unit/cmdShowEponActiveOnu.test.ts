@@ -112,4 +112,30 @@ describe('cmdShowXponActiveOnu', () => {
         const result = cmdShowXponActiveOnu.command();
         expect(result).toBe('show epon active-onu');
     });
+    it('should parse the command output correctly', () => {
+        const data = `
+            EPON0/12:13a0e8.e6d3.fa37 auto-configured ctc-oam-oper 1478        912     1971.12.03.16:21:58 1971.12.03.16:21:17 power-off         19435.16:51:03
+        `;
+        const expectedOutput: IBdcomActiveOnu[] = [
+            {
+                xponType: 'epon',
+                xponBoard: 0,
+                xponPort: 12,
+                xponInterface: 13,
+                macAddressOnu: 'a0e8.e6d3.fa37',
+                serialNumber: '',
+                status: 'auto-configured',
+                lastRegDate: '1971.12.03',
+                lastRegTime: '16:21:58',
+                lastDeregDate: '1971.12.03',
+                lastDeregTime: '16:21:17',
+                lastDeregReason: 'power-off',
+                aliveDays: '19435',
+                aliveTime: '16:51:03',
+            },
+        ];
+
+        const result = cmdShowXponActiveOnu.analyzer(data);
+        expect(result).toEqual(expectedOutput);
+    });
 });
